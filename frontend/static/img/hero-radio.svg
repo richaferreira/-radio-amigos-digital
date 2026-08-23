@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-label="Arte musical neon da Rádio Amigos Digital">
+ <defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff2d8d"/><stop offset=".45" stop-color="#7c3aed"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+  <radialGradient id="disc"><stop stop-color="#202033"/><stop offset=".5" stop-color="#0c0c15"/><stop offset="1" stop-color="#000"/></radialGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ </defs>
+ <rect width="900" height="720" rx="70" fill="#0b0813"/>
+ <circle cx="730" cy="108" r="86" fill="#ff2d8d" opacity=".22" filter="url(#glow)"/>
+ <circle cx="156" cy="590" r="120" fill="#22d3ee" opacity=".18" filter="url(#glow)"/>
+ <path d="M110 170C290 32 544 34 782 204" fill="none" stroke="url(#bg)" stroke-width="18" stroke-linecap="round" opacity=".9"/>
+ <rect x="102" y="200" width="112" height="265" rx="54" fill="url(#bg)"/>
+ <rect x="686" y="200" width="112" height="265" rx="54" fill="url(#bg)"/>
+ <circle cx="450" cy="380" r="226" fill="url(#disc)" stroke="#ffffff" stroke-opacity=".08" stroke-width="7"/>
+ <circle cx="450" cy="380" r="174" fill="none" stroke="#ffffff" stroke-opacity=".08" stroke-width="3"/>
+ <circle cx="450" cy="380" r="112" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="3"/>
+ <circle cx="450" cy="380" r="54" fill="url(#bg)" filter="url(#glow)"/>
+ <circle cx="450" cy="380" r="16" fill="#fff"/>
+ <g transform="translate(324,569)">
+  <rect width="252" height="70" rx="35" fill="#151024" stroke="#fff" stroke-opacity=".12"/>
+  <text x="126" y="46" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="30" fill="#fff">RAD • NO AR</text>
+ </g>
+</svg>
