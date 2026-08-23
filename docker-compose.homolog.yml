@@ -1,0 +1,7 @@
+services:
+  web:
+    ports:
+      - "5001:5000"
+    environment:
+      SITE_NAME: "Rádio Amigos Digital - Homologacao"
+      BASE_URL: "http://localhost:5001"
