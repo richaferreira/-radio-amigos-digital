@@ -10,10 +10,22 @@ def clean_chat_text(text):
         words.append("***" if w.lower() in BAD_WORDS else w)
     return " ".join(words)
 
+def _stream_setting(setting_key, config_key, default=""):
+    """Usa a configuração salva no painel quando existir; caso contrário, usa o .env."""
+    try:
+        from .models import SiteSetting
+        setting=SiteSetting.query.filter_by(key=setting_key).first()
+        if setting is not None:
+            return (setting.value or "").strip()
+    except Exception:
+        pass
+    return (current_app.config.get(config_key, default) or default).strip()
+
 def fetch_stream_status():
-    stream_url=current_app.config.get("STREAM_URL","")
-    status_url=current_app.config.get("STREAM_STATUS_URL","")
-    base={"configured":bool(stream_url),"stream_url":stream_url,"listeners":0,"live":False,"mode":"automatic","now_playing":None}
+    stream_url=_stream_setting("stream_url","STREAM_URL")
+    status_url=_stream_setting("stream_status_url","STREAM_STATUS_URL")
+    provider=_stream_setting("stream_provider","STREAM_PROVIDER","azuracast") or "azuracast"
+    base={"configured":bool(stream_url),"stream_url":stream_url,"status_url":status_url,"provider":provider,"listeners":0,"live":False,"mode":"automatic","now_playing":None}
     if not status_url:
         return base
     try:
