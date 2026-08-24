@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import get_jwt_identity
+from sqlalchemy import func
 from ..extensions import db
 from ..models import (
     User,
+    ChatMessage,
     BadgeDefinition,
     UserBadge,
     UserChatStyle,
@@ -53,6 +55,29 @@ def can_moderate(target):
     if current.role == "admin":
         return True
     return current.role == "moderator" and target.role != "admin"
+
+
+@bp.get("/users")
+@role_required("moderator")
+def community_users():
+    activity = (
+        db.session.query(ChatMessage.user_id, func.count(ChatMessage.id).label("chat_messages"))
+        .filter(ChatMessage.deleted.is_(False), ChatMessage.user_id.isnot(None))
+        .group_by(ChatMessage.user_id)
+        .subquery()
+    )
+    rows = (
+        db.session.query(User, func.coalesce(activity.c.chat_messages, 0).label("chat_messages"))
+        .outerjoin(activity, activity.c.user_id == User.id)
+        .order_by(func.coalesce(activity.c.chat_messages, 0).desc(), User.id.desc())
+        .all()
+    )
+    result = []
+    for user, chat_messages in rows:
+        data = user.to_dict()
+        data["chat_messages"] = int(chat_messages or 0)
+        result.append(data)
+    return result
 
 
 @bp.get("/badges")
