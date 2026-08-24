@@ -1,123 +1,75 @@
 (()=>{
-  let badgeCatalog=[];
+  let badges=[];
   let lastUnread=0;
   let notificationTimer=null;
+  let booted=false;
 
-  function roleName(role){return ({admin:'Administrador',moderator:'Moderador',dj:'DJ / Locutor',listener:'Ouvinte'})[role]||role}
-  function badgeView(b){return `<span class="community-admin-badge badge-${esc(b.color||'purple')}" title="${esc(b.description||b.name)}">${esc(b.icon||'🏅')} ${esc(b.name)}</span>`}
-  function styleValue(u,key,fallback){return u.chat_style?.[key]||fallback}
+  const roleName=r=>({admin:'Administrador',moderator:'Moderador',dj:'DJ / Locutor',listener:'Ouvinte'})[r]||r;
+  const badgeView=b=>`<span class="community-admin-badge badge-${esc(b.color||'purple')}" title="${esc(b.description||b.name)}">${esc(b.icon||'🏅')} ${esc(b.name)}</span>`;
+  const styleValue=(u,k,f)=>u.chat_style?.[k]||f;
 
   function installStyles(){
     if(document.querySelector('#communityAdminStyles'))return;
-    const style=document.createElement('style');
-    style.id='communityAdminStyles';
-    style.textContent=`
-      .community-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}.community-toolbar h3{margin:0;font-weight:900}
-      .community-user-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem}.community-user-card{border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1rem;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}.community-user-card.is-banned{border-color:rgba(248,113,113,.35);opacity:.78}.community-user-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem}.community-user-name{font-weight:900;font-size:1.05rem}.community-user-meta{font-size:.75rem;color:#9e95aa}.community-user-status{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.5rem}.community-user-status span{font-size:.65rem;padding:.24rem .48rem;border-radius:999px;background:rgba(255,255,255,.06)}
-      .community-admin-badges{display:flex;gap:.35rem;flex-wrap:wrap;min-height:28px}.community-admin-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .48rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:.65rem;font-weight:800}.badge-pink{color:#ff8ebf}.badge-cyan{color:#7eeaff}.badge-purple{color:#c5a6ff}.badge-gold{color:#ffe080}.badge-green{color:#8ef1c0}.badge-red{color:#ff9999}.badge-blue{color:#9fc6ff}
-      .community-section-label{font-size:.64rem;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:#93889f;margin:.9rem 0 .4rem}.community-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem}.community-badge-control{display:flex;gap:.45rem}.community-badge-control select{flex:1}.notification-list{display:flex;flex-direction:column;gap:.65rem}.notification-card{display:flex;gap:.8rem;align-items:flex-start;padding:.9rem 1rem;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}.notification-card.unread{border-color:rgba(34,211,238,.25);background:linear-gradient(90deg,rgba(34,211,238,.06),rgba(138,77,255,.04))}.notification-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.06);font-size:1.05rem}.notification-copy{flex:1}.notification-copy strong{display:block}.notification-copy p{margin:.2rem 0;color:#a79ead;font-size:.82rem}.notification-copy small{color:#766d80}.notification-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#ff2d8d;color:white;font-size:.65rem;font-weight:900;margin-left:.35rem}.chat-admin-message{padding:.75rem;border-bottom:1px solid rgba(255,255,255,.06)}.chat-admin-profile{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.chat-admin-role{font-size:.58rem;padding:.2rem .4rem;border-radius:999px;background:rgba(255,255,255,.07)}
-      @media(max-width:700px){.community-user-grid{grid-template-columns:1fr}.community-controls{grid-template-columns:1fr}.community-badge-control{flex-direction:column}}
-    `;
-    document.head.appendChild(style);
+    const s=document.createElement('style');s.id='communityAdminStyles';s.textContent=`
+    .community-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}.community-toolbar h3{margin:0;font-weight:900}.community-user-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem}.community-user-card{border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1rem;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}.community-user-card.is-banned{border-color:rgba(248,113,113,.35);opacity:.78}.community-user-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem}.community-user-name{font-weight:900;font-size:1.05rem}.community-user-meta{font-size:.75rem;color:#9e95aa}.activity-chip{display:inline-flex;align-items:center;gap:.3rem;margin-top:.45rem;padding:.28rem .5rem;border-radius:999px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.16);color:#8deeff;font-size:.65rem;font-weight:800}.community-user-status{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.5rem}.community-user-status span{font-size:.65rem;padding:.24rem .48rem;border-radius:999px;background:rgba(255,255,255,.06)}.community-admin-badges{display:flex;gap:.35rem;flex-wrap:wrap;min-height:28px}.community-admin-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .48rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:.65rem;font-weight:800}.badge-pink{color:#ff8ebf}.badge-cyan{color:#7eeaff}.badge-purple{color:#c5a6ff}.badge-gold{color:#ffe080}.badge-green{color:#8ef1c0}.badge-red{color:#ff9999}.badge-blue{color:#9fc6ff}.community-section-label{font-size:.64rem;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:#93889f;margin:.9rem 0 .4rem}.community-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem}.community-badge-control{display:flex;gap:.45rem}.community-badge-control select{flex:1}.notification-list{display:flex;flex-direction:column;gap:.65rem}.notification-card{display:flex;gap:.8rem;align-items:flex-start;padding:.9rem 1rem;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}.notification-card.unread{border-color:rgba(34,211,238,.25);background:linear-gradient(90deg,rgba(34,211,238,.06),rgba(138,77,255,.04))}.notification-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.06);font-size:1.05rem}.notification-copy{flex:1}.notification-copy strong{display:block}.notification-copy p{margin:.2rem 0;color:#a79ead;font-size:.82rem}.notification-copy small{color:#766d80}.notification-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#ff2d8d;color:#fff;font-size:.65rem;font-weight:900;margin-left:.35rem}.chat-admin-message{padding:.75rem;border-bottom:1px solid rgba(255,255,255,.06)}.chat-admin-profile{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.chat-admin-role{font-size:.58rem;padding:.2rem .4rem;border-radius:999px;background:rgba(255,255,255,.07)}@media(max-width:700px){.community-user-grid{grid-template-columns:1fr}.community-controls{grid-template-columns:1fr}.community-badge-control{flex-direction:column}}`;
+    document.head.appendChild(s);
   }
 
-  function ensureNotificationTab(){
+  function ensureNotificationsTab(){
     if(document.querySelector('[data-target="notificationsPane"]'))return;
-    const tabs=document.querySelector('#adminTabs');
-    const settingsButton=tabs?.querySelector('[data-target="settingsPane"]')?.closest('li');
-    if(!tabs)return;
-    const li=document.createElement('li');
-    li.className='nav-item';
-    li.innerHTML='<button class="nav-link" data-target="notificationsPane"><i class="bi bi-bell-fill"></i> Notificações <span id="notificationNavCount"></span></button>';
-    if(settingsButton)tabs.insertBefore(li,settingsButton);else tabs.appendChild(li);
-    const pane=document.createElement('div');
-    pane.id='notificationsPane';pane.className='admin-pane d-none';
-    document.querySelector('#reportsPane')?.parentElement?.appendChild(pane);
-    li.querySelector('button').onclick=()=>{
-      document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));
-      li.querySelector('button').classList.add('active');
-      document.querySelectorAll('.admin-pane').forEach(p=>p.classList.add('d-none'));
-      pane.classList.remove('d-none');
-      communityNotifications();
-    };
+    const tabs=document.querySelector('#adminTabs');if(!tabs)return;
+    const li=document.createElement('li');li.className='nav-item';li.innerHTML='<button class="nav-link" data-target="notificationsPane"><i class="bi bi-bell-fill"></i> Notificações <span id="notificationNavCount"></span></button>';
+    const before=tabs.querySelector('[data-target="settingsPane"]')?.closest('li');before?tabs.insertBefore(li,before):tabs.appendChild(li);
+    const pane=document.createElement('div');pane.id='notificationsPane';pane.className='admin-pane d-none';document.querySelector('#reportsPane')?.parentElement?.appendChild(pane);
+    li.querySelector('button').onclick=()=>{document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));li.querySelector('button').classList.add('active');document.querySelectorAll('.admin-pane').forEach(p=>p.classList.add('d-none'));pane.classList.remove('d-none');communityNotifications(false)};
   }
 
-  async function loadBadges(){
-    try{badgeCatalog=await api('/api/admin/community/badges')}catch{badgeCatalog=[]}
-    return badgeCatalog;
+  async function loadBadges(){try{badges=await api('/api/admin/community/badges')}catch{badges=[]}return badges}
+
+  function userCard(u,canPromote){
+    const roleControl=canPromote?`<select class="form-select form-select-sm" onchange="communityRoleUser(${u.id},this.value)">${['listener','dj','moderator','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${roleName(r)}</option>`).join('')}</select>`:`<div class="form-control form-control-sm bg-dark text-light">${esc(roleName(u.role))}</div>`;
+    const owned=(u.badges||[]).map(b=>`${badgeView(b)} <button class="btn btn-link btn-sm text-danger p-0 me-1" title="Remover" onclick="communityRemoveBadge(${u.id},${b.id})">×</button>`).join('');
+    const available=badges.filter(b=>!(u.badges||[]).some(x=>x.id===b.id));
+    return `<article class="community-user-card ${u.is_banned?'is-banned':''}"><div class="community-user-head"><div><div class="community-user-name">${esc(u.display_name)}</div><div class="community-user-meta">@${esc(u.username)} · ID ${u.id}</div><div class="activity-chip"><i class="bi bi-chat-heart"></i> ${Number(u.chat_messages||0)} mensagens no chat</div><div class="community-user-status">${u.is_muted?'<span>🔇 MUTADO</span>':''}${u.is_banned?'<span>⛔ BANIDO</span>':''}</div></div><span class="badge text-bg-secondary">${esc(roleName(u.role))}</span></div><div class="community-section-label">Cargo</div>${roleControl}<div class="community-section-label">Moderação</div><div class="d-flex gap-2 flex-wrap"><button class="btn btn-sm ${u.is_muted?'btn-success':'btn-warning'}" onclick="communityModerate(${u.id},'is_muted',${!u.is_muted})">${u.is_muted?'Desmutar':'Mutar'}</button><button class="btn btn-sm ${u.is_banned?'btn-success':'btn-danger'}" onclick="communityModerate(${u.id},'is_banned',${!u.is_banned})">${u.is_banned?'Desbanir':'Banir'}</button></div><div class="community-section-label">Emblemas</div><div class="community-admin-badges mb-2">${owned||'<span class="text-secondary small">Nenhum emblema</span>'}</div><div class="community-badge-control"><select class="form-select form-select-sm" id="badgeSelect${u.id}"><option value="">Escolher emblema...</option>${available.map(b=>`<option value="${b.id}">${esc(b.icon)} ${esc(b.name)}</option>`).join('')}</select><button class="btn btn-sm btn-outline-info" onclick="communityAwardBadge(${u.id})">Conceder</button></div><div class="community-section-label">Estilo no chat</div><div class="community-controls"><select class="form-select form-select-sm" id="font${u.id}">${[['default','Padrão'],['bold','Negrito'],['mono','Mono'],['serif','Serif'],['rounded','Arredondada'],['italic','Itálico']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'font_style','default')===v?'selected':''}>${l}</option>`).join('')}</select><select class="form-select form-select-sm" id="color${u.id}">${[['default','Cor padrão'],['pink','Rosa'],['cyan','Ciano'],['purple','Roxo'],['gold','Dourado'],['green','Verde'],['white','Branco']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'text_color','default')===v?'selected':''}>${l}</option>`).join('')}</select><select class="form-select form-select-sm" id="effect${u.id}">${[['none','Sem efeito'],['glow','Glow'],['neon','Neon'],['shadow','Sombra'],['pulse','Pulso']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'effect','none')===v?'selected':''}>${l}</option>`).join('')}</select></div><button class="btn btn-sm btn-outline-light w-100 mt-2" onclick="communitySaveStyle(${u.id})"><i class="bi bi-palette"></i> Aplicar estilo</button></article>`;
   }
 
   async function communityUsers(){
     const pane=document.querySelector('#usersPane');if(!pane)return;
-    try{
-      const [usersData]=await Promise.all([api('/api/admin/users'),badgeCatalog.length?Promise.resolve(badgeCatalog):loadBadges()]);
-      const canPromote=me?.role==='admin';
-      pane.innerHTML=`<div class="community-toolbar"><div><h3>Usuários & Comunidade</h3><div class="text-secondary small">ADM define cargos. ADM e MOD cuidam de emblemas, estilos, mute e ban.</div></div>${canPromote?'<button class="btn btn-sm btn-outline-info" id="newBadgeBtn"><i class="bi bi-award"></i> Criar emblema</button>':''}</div><div id="newBadgeBox"></div><div class="community-user-grid">${usersData.map(u=>userCard(u,canPromote)).join('')}</div>`;
-      pane.querySelector('#newBadgeBtn')?.addEventListener('click',renderBadgeCreator);
-    }catch(error){pane.innerHTML=`<p class="text-warning">${esc(error.message||'Seu papel não permite gerenciar usuários.')}</p>`}
+    try{if(!badges.length)await loadBadges();const usersData=await api('/api/admin/community/users');const canPromote=me?.role==='admin';pane.innerHTML=`<div class="community-toolbar"><div><h3>Usuários & Comunidade</h3><div class="text-secondary small">Ordenado pelos mais ativos. ADM define cargos; ADM e MOD gerenciam moderação, emblemas e visual do chat.</div></div>${canPromote?'<button class="btn btn-sm btn-outline-info" id="newBadgeBtn"><i class="bi bi-award"></i> Criar emblema</button>':''}</div><div id="newBadgeBox"></div><div class="community-user-grid">${usersData.map(u=>userCard(u,canPromote)).join('')}</div>`;pane.querySelector('#newBadgeBtn')?.addEventListener('click',renderBadgeCreator)}catch(e){pane.innerHTML=`<p class="text-warning">${esc(e.message||'Sem permissão para gerenciar usuários.')}</p>`}
   }
 
-  function userCard(u,canPromote){
-    const roleControl=canPromote?`<select class="form-select form-select-sm" onchange="communityRoleUser(${u.id},this.value)">${['listener','dj','moderator','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${roleName(r)}</option>`).join('')}</select>`:`<div class="form-control form-control-sm bg-dark text-light">${esc(roleName(u.role))}</div>`;
-    const currentBadges=(u.badges||[]).map(b=>`${badgeView(b)} <button class="btn btn-link btn-sm text-danger p-0 me-1" title="Remover" onclick="communityRemoveBadge(${u.id},${b.id})">×</button>`).join('');
-    const available=badgeCatalog.filter(b=>!(u.badges||[]).some(x=>x.id===b.id));
-    return `<article class="community-user-card ${u.is_banned?'is-banned':''}">
-      <div class="community-user-head"><div><div class="community-user-name">${esc(u.display_name)}</div><div class="community-user-meta">@${esc(u.username)} · ID ${u.id}</div><div class="community-user-status">${u.is_muted?'<span>🔇 MUTADO</span>':''}${u.is_banned?'<span>⛔ BANIDO</span>':''}</div></div><span class="badge text-bg-secondary">${esc(roleName(u.role))}</span></div>
-      <div class="community-section-label">Cargo</div>${roleControl}
-      <div class="community-section-label">Moderação</div><div class="d-flex gap-2 flex-wrap"><button class="btn btn-sm ${u.is_muted?'btn-success':'btn-warning'}" onclick="communityModerate(${u.id},'is_muted',${!u.is_muted})">${u.is_muted?'Desmutar':'Mutar'}</button><button class="btn btn-sm ${u.is_banned?'btn-success':'btn-danger'}" onclick="communityModerate(${u.id},'is_banned',${!u.is_banned})">${u.is_banned?'Desbanir':'Banir'}</button></div>
-      <div class="community-section-label">Emblemas</div><div class="community-admin-badges mb-2">${currentBadges||'<span class="text-secondary small">Nenhum emblema</span>'}</div><div class="community-badge-control"><select class="form-select form-select-sm" id="badgeSelect${u.id}"><option value="">Escolher emblema...</option>${available.map(b=>`<option value="${b.id}">${esc(b.icon)} ${esc(b.name)}</option>`).join('')}</select><button class="btn btn-sm btn-outline-info" onclick="communityAwardBadge(${u.id})">Conceder</button></div>
-      <div class="community-section-label">Estilo no chat</div><div class="community-controls"><select class="form-select form-select-sm" id="font${u.id}">${[['default','Padrão'],['bold','Negrito'],['mono','Mono'],['serif','Serif'],['rounded','Arredondada'],['italic','Itálico']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'font_style','default')===v?'selected':''}>${l}</option>`).join('')}</select><select class="form-select form-select-sm" id="color${u.id}">${[['default','Cor padrão'],['pink','Rosa'],['cyan','Ciano'],['purple','Roxo'],['gold','Dourado'],['green','Verde'],['white','Branco']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'text_color','default')===v?'selected':''}>${l}</option>`).join('')}</select><select class="form-select form-select-sm" id="effect${u.id}">${[['none','Sem efeito'],['glow','Glow'],['neon','Neon'],['shadow','Sombra'],['pulse','Pulso']].map(([v,l])=>`<option value="${v}" ${styleValue(u,'effect','none')===v?'selected':''}>${l}</option>`).join('')}</select></div><button class="btn btn-sm btn-outline-light w-100 mt-2" onclick="communitySaveStyle(${u.id})"><i class="bi bi-palette"></i> Aplicar estilo</button>
-    </article>`;
-  }
+  function renderBadgeCreator(){const box=document.querySelector('#newBadgeBox');if(!box)return;box.innerHTML=`<form class="row g-2 p-3 mb-3 rounded-4 border border-secondary-subtle"><div class="col-md-3"><input class="form-control" name="name" placeholder="Nome do emblema" required></div><div class="col-md-1"><input class="form-control" name="icon" value="🏅" maxlength="16"></div><div class="col-md-2"><select class="form-select" name="color"><option>purple</option><option>pink</option><option>cyan</option><option>gold</option><option>green</option><option>red</option><option>blue</option></select></div><div class="col-md-4"><input class="form-control" name="description" placeholder="Descrição"></div><div class="col-md-2"><button class="btn btn-primary w-100">Criar</button></div></form>`;box.querySelector('form').onsubmit=async e=>{e.preventDefault();try{await api('/api/admin/community/badges',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});await loadBadges();toast('Emblema criado');communityUsers()}catch(x){toast(x.message)}}}
 
-  function renderBadgeCreator(){
-    const box=document.querySelector('#newBadgeBox');if(!box)return;
-    box.innerHTML=`<form id="badgeCreateForm" class="row g-2 p-3 mb-3 rounded-4 border border-secondary-subtle"><div class="col-md-3"><input class="form-control" name="name" placeholder="Nome do emblema" required></div><div class="col-md-1"><input class="form-control" name="icon" value="🏅" maxlength="16"></div><div class="col-md-2"><select class="form-select" name="color"><option>purple</option><option>pink</option><option>cyan</option><option>gold</option><option>green</option><option>red</option><option>blue</option></select></div><div class="col-md-4"><input class="form-control" name="description" placeholder="Descrição"></div><div class="col-md-2"><button class="btn btn-primary w-100">Criar</button></div></form>`;
-    box.querySelector('form').onsubmit=async e=>{e.preventDefault();try{await api('/api/admin/community/badges',{method:'POST',body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});await loadBadges();toast('Emblema criado');communityUsers()}catch(error){toast(error.message)}};
-  }
+  window.communityRoleUser=async(id,role)=>{try{await api(`/api/admin/users/${id}`,{method:'PATCH',body:JSON.stringify({role})});toast(`Cargo: ${roleName(role)}`);communityUsers()}catch(e){toast(e.message)}};
+  window.communityModerate=async(id,field,value)=>{try{await api(`/api/admin/community/users/${id}/moderation`,{method:'PATCH',body:JSON.stringify({[field]:value})});toast(value?(field==='is_banned'?'Usuário banido':'Usuário mutado'):(field==='is_banned'?'Ban removido':'Mute removido'));communityUsers()}catch(e){toast(e.message)}};
+  window.communityAwardBadge=async id=>{const badgeId=Number(document.querySelector(`#badgeSelect${id}`)?.value);if(!badgeId)return toast('Escolha um emblema');try{await api(`/api/admin/community/users/${id}/badges/${badgeId}`,{method:'POST'});toast('Emblema concedido 🏅');communityUsers()}catch(e){toast(e.message)}};
+  window.communityRemoveBadge=async(id,badgeId)=>{try{await api(`/api/admin/community/users/${id}/badges/${badgeId}`,{method:'DELETE'});toast('Emblema removido');communityUsers()}catch(e){toast(e.message)}};
+  window.communitySaveStyle=async id=>{const data={font_style:document.querySelector(`#font${id}`)?.value,text_color:document.querySelector(`#color${id}`)?.value,effect:document.querySelector(`#effect${id}`)?.value};try{await api(`/api/admin/community/users/${id}/style`,{method:'PUT',body:JSON.stringify(data)});toast('Estilo atualizado ✨');communityUsers()}catch(e){toast(e.message)}};
 
-  window.communityRoleUser=async(id,role)=>{try{await api(`/api/admin/users/${id}`,{method:'PATCH',body:JSON.stringify({role})});toast(`Cargo alterado para ${roleName(role)}`);communityUsers()}catch(error){toast(error.message)}};
-  window.communityModerate=async(id,field,value)=>{try{await api(`/api/admin/community/users/${id}/moderation`,{method:'PATCH',body:JSON.stringify({[field]:value})});toast(value?(field==='is_banned'?'Usuário banido':'Usuário mutado'):(field==='is_banned'?'Ban removido':'Mute removido'));communityUsers()}catch(error){toast(error.message)}};
-  window.communityAwardBadge=async id=>{const badgeId=Number(document.querySelector(`#badgeSelect${id}`)?.value);if(!badgeId)return toast('Escolha um emblema');try{await api(`/api/admin/community/users/${id}/badges/${badgeId}`,{method:'POST'});toast('Emblema concedido 🏅');communityUsers()}catch(error){toast(error.message)}};
-  window.communityRemoveBadge=async(id,badgeId)=>{try{await api(`/api/admin/community/users/${id}/badges/${badgeId}`,{method:'DELETE'});toast('Emblema removido');communityUsers()}catch(error){toast(error.message)}};
-  window.communitySaveStyle=async id=>{const data={font_style:document.querySelector(`#font${id}`)?.value,text_color:document.querySelector(`#color${id}`)?.value,effect:document.querySelector(`#effect${id}`)?.value};try{await api(`/api/admin/community/users/${id}/style`,{method:'PUT',body:JSON.stringify(data)});toast('Estilo do chat atualizado ✨');communityUsers()}catch(error){toast(error.message)}};
+  async function communityChat(){const pane=document.querySelector('#chatPane');if(!pane)return;try{const rows=await api('/api/admin/chat');pane.innerHTML=`<div class="community-toolbar"><div><h3>Central de Moderação do Chat</h3><div class="small text-secondary">Apague mensagens e veja cargos/emblemas antes de agir.</div></div></div>${rows.map(m=>`<div class="chat-admin-message ${m.deleted?'opacity-50':''}"><div class="chat-admin-profile"><strong>${esc(m.nickname)}</strong><span class="chat-admin-role">${esc(roleName(m.role))}</span>${(m.badges||[]).map(badgeView).join('')}</div><div class="mt-1">${esc(m.message)}</div><div class="mt-2">${m.deleted?'<span class="small text-secondary">Mensagem apagada</span>':`<button class="btn btn-sm btn-outline-danger" onclick="communityDeleteMessage(${m.id})">Apagar mensagem</button>`}</div></div>`).join('')}`}catch(e){pane.innerHTML=`<p class="text-warning">${esc(e.message)}</p>`}}
+  window.communityDeleteMessage=async id=>{try{await api(`/api/admin/chat/${id}`,{method:'DELETE'});toast('Mensagem apagada');communityChat()}catch(e){toast(e.message)}};
 
-  async function communityChat(){
-    const pane=document.querySelector('#chatPane');if(!pane)return;
-    try{const rows=await api('/api/admin/chat');pane.innerHTML=`<div class="community-toolbar"><div><h3>Central de Moderação do Chat</h3><div class="small text-secondary">Mensagens recentes, cargos e emblemas visíveis para moderar com contexto.</div></div></div><div>${rows.map(m=>`<div class="chat-admin-message ${m.deleted?'opacity-50':''}"><div class="chat-admin-profile"><strong>${esc(m.nickname)}</strong><span class="chat-admin-role">${esc(roleName(m.role))}</span>${(m.badges||[]).map(badgeView).join('')}</div><div class="mt-1">${esc(m.message)}</div><div class="mt-2">${m.deleted?'<span class="small text-secondary">Mensagem apagada</span>':`<button class="btn btn-sm btn-outline-danger" onclick="communityDeleteMessage(${m.id})">Apagar mensagem</button>`}</div></div>`).join('')}</div>`}catch(error){pane.innerHTML=`<p class="text-warning">${esc(error.message)}</p>`}
-  }
-  window.communityDeleteMessage=async id=>{try{await api(`/api/admin/chat/${id}`,{method:'DELETE'});toast('Mensagem apagada');communityChat()}catch(error){toast(error.message)}};
-
-  function notificationIcon(kind){return kind==='song_request'?'🎵':kind==='mention'?'@':'🔔'}
-  async function communityNotifications(silent=false){
-    const pane=document.querySelector('#notificationsPane');
-    try{
-      const data=await api('/api/admin/community/notifications');
-      const count=document.querySelector('#notificationNavCount');
-      if(count)count.innerHTML=data.unread?`<span class="notification-count">${data.unread}</span>`:'';
-      if(!silent&&data.unread>lastUnread&&lastUnread>=0)toast(`${data.unread} notificação(ões) pendente(s)`);
-      lastUnread=data.unread;
-      if(pane) pane.innerHTML=`<div class="community-toolbar"><div><h3>Notificações da equipe</h3><div class="small text-secondary">Menções no chat e pedidos de música chegam aqui.</div></div><button class="btn btn-sm btn-outline-light" onclick="communityReadAll()">Marcar todas como lidas</button></div><div class="notification-list">${data.items.length?data.items.map(n=>`<article class="notification-card ${n.is_read?'':'unread'}"><div class="notification-icon">${notificationIcon(n.kind)}</div><div class="notification-copy"><strong>${esc(n.title)}</strong><p>${esc(n.body)}</p><small>${new Date(n.created_at).toLocaleString('pt-BR')}</small></div>${n.is_read?'':`<button class="btn btn-sm btn-outline-info" onclick="communityReadNotification(${n.id})">Lida</button>`}</article>`).join(''):'<p class="text-secondary">Nenhuma notificação.</p>'}</div>`;
-    }catch(error){if(pane&&!silent)pane.innerHTML='<p class="text-warning">Notificações disponíveis para ADM e MOD.</p>'}
-  }
-  window.communityReadNotification=async id=>{try{await api(`/api/admin/community/notifications/${id}/read`,{method:'PATCH'});communityNotifications(true)}catch(error){toast(error.message)}};
-  window.communityReadAll=async()=>{try{await api('/api/admin/community/notifications/read-all',{method:'POST'});communityNotifications(true);toast('Notificações marcadas como lidas')}catch(error){toast(error.message)}};
+  const notificationIcon=k=>k==='song_request'?'🎵':k==='mention'?'@':'🔔';
+  async function communityNotifications(showToast=false){const pane=document.querySelector('#notificationsPane');try{const d=await api('/api/admin/community/notifications');const count=document.querySelector('#notificationNavCount');if(count)count.innerHTML=d.unread?`<span class="notification-count">${d.unread}</span>`:'';if(showToast&&d.unread>lastUnread)toast('Nova notificação da comunidade 🔔');lastUnread=d.unread;if(pane)pane.innerHTML=`<div class="community-toolbar"><div><h3>Notificações da equipe</h3><div class="small text-secondary">Menções e pedidos musicais do chat.</div></div><button class="btn btn-sm btn-outline-light" onclick="communityReadAll()">Marcar todas como lidas</button></div><div class="notification-list">${d.items.length?d.items.map(n=>`<article class="notification-card ${n.is_read?'':'unread'}"><div class="notification-icon">${notificationIcon(n.kind)}</div><div class="notification-copy"><strong>${esc(n.title)}</strong><p>${esc(n.body)}</p><small>${new Date(n.created_at).toLocaleString('pt-BR')}</small></div>${n.is_read?'':`<button class="btn btn-sm btn-outline-info" onclick="communityReadNotification(${n.id})">Lida</button>`}</article>`).join(''):'<p class="text-secondary">Nenhuma notificação.</p>'}</div>`}catch(e){if(pane)pane.innerHTML='<p class="text-warning">Notificações disponíveis para ADM e MOD.</p>'}}
+  window.communityReadNotification=async id=>{try{await api(`/api/admin/community/notifications/${id}/read`,{method:'PATCH'});communityNotifications(false)}catch(e){toast(e.message)}};
+  window.communityReadAll=async()=>{try{await api('/api/admin/community/notifications/read-all',{method:'POST'});communityNotifications(false);toast('Tudo marcado como lido')}catch(e){toast(e.message)}};
 
   installStyles();
-  ensureNotificationTab();
   window.users=communityUsers;
   window.chat=communityChat;
-  window.communityNotifications=communityNotifications;
 
-  function bootCommunity(){
-    if(!token||!me)return;
+  function tryBoot(){
+    if(booted||!me)return false;
+    booted=true;
     if(me.role==='admin'||me.role==='moderator'){
-      loadBadges().then(()=>communityUsers());
+      ensureNotificationsTab();
+      loadBadges().then(communityUsers);
       communityChat();
-      communityNotifications(true);
-      if(!notificationTimer)notificationTimer=setInterval(()=>communityNotifications(true),8000);
+      communityNotifications(false);
+      notificationTimer=setInterval(()=>communityNotifications(true),8000);
     }
+    return true;
   }
-  setTimeout(bootCommunity,500);
-  setInterval(()=>{if(token&&me&&(me.role==='admin'||me.role==='moderator'))bootCommunity()},5000);
+  const bootWatch=setInterval(()=>{if(tryBoot())clearInterval(bootWatch)},400);
+  tryBoot();
 })();
