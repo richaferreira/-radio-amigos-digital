@@ -1,46 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-label="Console musical futurista da Rádio Amigos Digital">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" role="img" aria-label="Robô DJ neon da Rádio Amigos Digital">
   <defs>
-    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff2d8d"/><stop offset=".48" stop-color="#9a45ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
-    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#313042"/><stop offset=".22" stop-color="#0e0d16"/><stop offset=".56" stop-color="#242333"/><stop offset="1" stop-color="#07070c"/></linearGradient>
-    <radialGradient id="disc" cx="45%" cy="40%"><stop stop-color="#242133"/><stop offset=".42" stop-color="#0c0b12"/><stop offset="1" stop-color="#020204"/></radialGradient>
-    <radialGradient id="halo"><stop stop-color="#8a4dff" stop-opacity=".5"/><stop offset=".5" stop-color="#ff2d8d" stop-opacity=".14"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
-    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="15" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff2d8d"/><stop offset=".5" stop-color="#9a45ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#46465c"/><stop offset=".2" stop-color="#171522"/><stop offset=".55" stop-color="#29283a"/><stop offset="1" stop-color="#08070d"/></linearGradient>
+    <linearGradient id="visor" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ff2d8d" stop-opacity=".9"/><stop offset=".5" stop-color="#9a45ff" stop-opacity=".7"/><stop offset="1" stop-color="#22d3ee" stop-opacity=".95"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#a855f7" stop-opacity=".5"/><stop offset=".55" stop-color="#ff2d8d" stop-opacity=".12"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+    <filter id="glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="11" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+    <style>
+      #dj{animation:djFloat 4.8s ease-in-out infinite;transform-origin:450px 350px}
+      #haloA{animation:haloPulse 3.2s ease-in-out infinite;transform-origin:450px 330px}
+      #haloB{animation:ringSpin 18s linear infinite;transform-origin:450px 330px}
+      #chest{animation:chestPulse 1.8s ease-in-out infinite;transform-origin:450px 397px}
+      .eq{transform-box:fill-box;transform-origin:center bottom;animation:eqBounce .75s ease-in-out infinite alternate}
+      .eq:nth-child(2n){animation-duration:.52s}.eq:nth-child(3n){animation-duration:.92s}
+      .note{animation:noteFloat 3.4s ease-in-out infinite}.note.alt{animation-delay:-1.6s}
+      @keyframes djFloat{50%{transform:translateY(-9px)}}
+      @keyframes haloPulse{50%{transform:scale(1.035);opacity:.88}}
+      @keyframes ringSpin{to{transform:rotate(360deg)}}
+      @keyframes chestPulse{50%{transform:scale(1.045);filter:brightness(1.35)}}
+      @keyframes eqBounce{to{transform:scaleY(.38);opacity:.65}}
+      @keyframes noteFloat{50%{transform:translateY(-12px);opacity:.65}}
+    </style>
   </defs>
-  <ellipse cx="450" cy="590" rx="338" ry="76" fill="url(#halo)" opacity=".6"/>
-  <ellipse cx="450" cy="590" rx="284" ry="48" fill="none" stroke="url(#neon)" stroke-width="5" opacity=".45" filter="url(#glow)"/>
-  <ellipse cx="450" cy="590" rx="222" ry="30" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="3"/>
 
-  <path d="M168 288C185 119 300 66 450 66s265 53 282 222" fill="none" stroke="#302d3d" stroke-width="52" stroke-linecap="round"/>
-  <path d="M168 288C185 119 300 66 450 66s265 53 282 222" fill="none" stroke="url(#neon)" stroke-width="19" stroke-linecap="round" filter="url(#glow)"/>
-  <path d="M187 278C214 143 312 96 450 96s236 47 263 182" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="3" stroke-linecap="round"/>
-
-  <g transform="translate(104,250)">
-    <rect width="126" height="250" rx="58" fill="url(#metal)" stroke="#fff" stroke-opacity=".11" stroke-width="3"/>
-    <rect x="15" y="18" width="96" height="214" rx="44" fill="#0a0910" stroke="url(#neon)" stroke-width="8"/>
-    <rect x="29" y="42" width="15" height="165" rx="8" fill="#ff2d8d" opacity=".85" filter="url(#glow)"/>
-    <rect x="82" y="42" width="15" height="165" rx="8" fill="#22d3ee" opacity=".85" filter="url(#glow)"/>
-    <path d="M57 45v160M68 45v160" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
-  </g>
-  <g transform="translate(670,250)">
-    <rect width="126" height="250" rx="58" fill="url(#metal)" stroke="#fff" stroke-opacity=".11" stroke-width="3"/>
-    <rect x="15" y="18" width="96" height="214" rx="44" fill="#0a0910" stroke="url(#neon)" stroke-width="8"/>
-    <rect x="29" y="42" width="15" height="165" rx="8" fill="#ff2d8d" opacity=".85" filter="url(#glow)"/>
-    <rect x="82" y="42" width="15" height="165" rx="8" fill="#22d3ee" opacity=".85" filter="url(#glow)"/>
-    <path d="M57 45v160M68 45v160" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
-  </g>
-
-  <circle cx="450" cy="365" r="216" fill="url(#metal)" stroke="#fff" stroke-opacity=".08" stroke-width="5"/>
-  <circle cx="450" cy="365" r="194" fill="none" stroke="url(#neon)" stroke-width="8" opacity=".75" filter="url(#glow)"/>
-  <circle cx="450" cy="365" r="176" fill="url(#disc)" stroke="#fff" stroke-opacity=".08" stroke-width="3"/>
-  <circle cx="450" cy="365" r="145" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="2" stroke-dasharray="3 9"/>
-  <circle cx="450" cy="365" r="121" fill="none" stroke="url(#neon)" stroke-opacity=".5" stroke-width="2" stroke-dasharray="8 10"/>
-  <circle cx="450" cy="365" r="84" fill="#090811" stroke="url(#neon)" stroke-width="5" filter="url(#glow)"/>
-  <circle cx="450" cy="365" r="61" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="2"/>
-  <path d="M433 335l52 30-52 30z" fill="#fff" opacity=".95" filter="url(#glow)"/>
+  <ellipse cx="450" cy="365" rx="365" ry="330" fill="url(#halo)" opacity=".32" filter="url(#soft)"/>
+  <circle id="haloA" cx="450" cy="330" r="260" fill="none" stroke="url(#neon)" stroke-width="13" opacity=".72" filter="url(#glow)"/>
+  <circle id="haloB" cx="450" cy="330" r="226" fill="none" stroke="#8a4dff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="5 15"/>
+  <circle cx="450" cy="330" r="198" fill="none" stroke="#22d3ee" stroke-opacity=".15" stroke-width="2"/>
 
   <g opacity=".9">
-    <rect x="287" y="522" width="8" height="32" rx="4" fill="#ff2d8d"/><rect x="303" y="511" width="8" height="43" rx="4" fill="#ff3b98"/><rect x="319" y="530" width="8" height="24" rx="4" fill="#c64cff"/><rect x="335" y="502" width="8" height="52" rx="4" fill="#9b4dff"/><rect x="351" y="520" width="8" height="34" rx="4" fill="#765aff"/><rect x="367" y="494" width="8" height="60" rx="4" fill="#586dfd"/><rect x="383" y="516" width="8" height="38" rx="4" fill="#4589fb"/><rect x="399" y="505" width="8" height="49" rx="4" fill="#35a7f6"/><rect x="415" y="529" width="8" height="25" rx="4" fill="#22d3ee"/>
-    <rect x="477" y="519" width="8" height="35" rx="4" fill="#22d3ee"/><rect x="493" y="499" width="8" height="55" rx="4" fill="#35bff0"/><rect x="509" y="526" width="8" height="28" rx="4" fill="#4aa7fa"/><rect x="525" y="507" width="8" height="47" rx="4" fill="#676dfc"/><rect x="541" y="493" width="8" height="61" rx="4" fill="#8a4dff"/><rect x="557" y="517" width="8" height="37" rx="4" fill="#b344ff"/><rect x="573" y="505" width="8" height="49" rx="4" fill="#e436b7"/><rect x="589" y="524" width="8" height="30" rx="4" fill="#ff2d8d"/>
+    <g transform="translate(118,455)"><rect class="eq" x="0" y="30" width="10" height="80" rx="5" fill="#ff2d8d"/><rect class="eq" x="18" y="0" width="10" height="110" rx="5" fill="#c23fff"/><rect class="eq" x="36" y="45" width="10" height="65" rx="5" fill="#7c5cff"/><rect class="eq" x="54" y="18" width="10" height="92" rx="5" fill="#22d3ee"/><rect class="eq" x="72" y="53" width="10" height="57" rx="5" fill="#ff2d8d"/></g>
+    <g transform="translate(690,455)"><rect class="eq" x="0" y="45" width="10" height="65" rx="5" fill="#22d3ee"/><rect class="eq" x="18" y="12" width="10" height="98" rx="5" fill="#7c5cff"/><rect class="eq" x="36" y="0" width="10" height="110" rx="5" fill="#ff2d8d"/><rect class="eq" x="54" y="34" width="10" height="76" rx="5" fill="#c23fff"/><rect class="eq" x="72" y="20" width="10" height="90" rx="5" fill="#22d3ee"/></g>
   </g>
+
+  <g class="note" fill="#ff4da6" filter="url(#glow)" opacity=".85"><path d="M178 214v64c-13-8-34-1-34 14 0 17 27 20 39 6 5-6 5-13 5-21v-40l39-10v43c-13-8-34-1-34 14 0 17 27 20 39 6 5-6 5-13 5-21v-79z"/></g>
+  <g class="note alt" transform="translate(565 194) scale(.75)" fill="#31dcff" filter="url(#glow)" opacity=".9"><path d="M178 214v64c-13-8-34-1-34 14 0 17 27 20 39 6 5-6 5-13 5-21v-40l39-10v43c-13-8-34-1-34 14 0 17 27 20 39 6 5-6 5-13 5-21v-79z"/></g>
+
+  <g id="dj">
+    <!-- headphones -->
+    <path d="M332 238c11-102 72-151 118-151s107 49 118 151" fill="none" stroke="#242232" stroke-width="46" stroke-linecap="round"/>
+    <path d="M332 238c11-102 72-151 118-151s107 49 118 151" fill="none" stroke="url(#neon)" stroke-width="13" stroke-linecap="round" filter="url(#glow)"/>
+    <g transform="translate(294 210)"><rect width="72" height="142" rx="32" fill="url(#metal)" stroke="#9a45ff" stroke-width="5"/><rect x="18" y="24" width="15" height="94" rx="8" fill="#ff2d8d" filter="url(#glow)"/><rect x="41" y="24" width="13" height="94" rx="7" fill="#22d3ee" filter="url(#glow)"/></g>
+    <g transform="translate(534 210)"><rect width="72" height="142" rx="32" fill="url(#metal)" stroke="#22d3ee" stroke-width="5"/><rect x="18" y="24" width="15" height="94" rx="8" fill="#ff2d8d" filter="url(#glow)"/><rect x="41" y="24" width="13" height="94" rx="7" fill="#22d3ee" filter="url(#glow)"/></g>
+
+    <!-- head -->
+    <path d="M365 154Q450 98 535 154l-8 132q-24 62-77 72-53-10-77-72z" fill="url(#metal)" stroke="#78738c" stroke-width="4"/>
+    <path d="M382 186q68-40 136 0l-7 70q-61 29-122 0z" fill="#070812" stroke="url(#neon)" stroke-width="5" filter="url(#glow)"/>
+    <path d="M402 224h13v20h-13zm22-12h13v32h-13zm22 4h13v28h-13zm22-14h13v42h-13zm22 9h13v33h-13" fill="url(#visor)"/>
+    <path d="M395 166l22-25h66l22 25" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="4"/>
+
+    <!-- neck and torso -->
+    <path d="M409 342h82l15 45-56 48-56-48z" fill="#14131e" stroke="#656174" stroke-width="4"/>
+    <path d="M332 365q118-68 236 0l55 175H277z" fill="url(#metal)" stroke="#5d586c" stroke-width="5"/>
+    <path d="M343 381l48-31 59 36 59-36 48 31-24 132H367z" fill="#171622" stroke="url(#neon)" stroke-opacity=".75" stroke-width="4"/>
+    <path d="M366 425l-40 25m208-25 40 25M385 505h130" fill="none" stroke="#22d3ee" stroke-opacity=".65" stroke-width="5"/>
+    <path d="M352 395l27 18m169-18-27 18" fill="none" stroke="#ff2d8d" stroke-width="5" filter="url(#glow)"/>
+
+    <!-- shoulders -->
+    <ellipse cx="315" cy="397" rx="63" ry="48" fill="url(#metal)" stroke="#ff2d8d" stroke-width="5"/>
+    <ellipse cx="585" cy="397" rx="63" ry="48" fill="url(#metal)" stroke="#22d3ee" stroke-width="5"/>
+    <circle cx="315" cy="397" r="19" fill="#0b0a12" stroke="url(#neon)" stroke-width="5"/>
+    <circle cx="585" cy="397" r="19" fill="#0b0a12" stroke="url(#neon)" stroke-width="5"/>
+
+    <!-- chest player -->
+    <g id="chest" filter="url(#glow)"><circle cx="450" cy="431" r="70" fill="#090811" stroke="url(#neon)" stroke-width="8"/><circle cx="450" cy="431" r="50" fill="#151324" stroke="#fff" stroke-opacity=".18" stroke-width="2"/><path d="M433 400l54 31-54 31z" fill="#fff"/></g>
+
+    <!-- arms -->
+    <path d="M282 421q-59 27-100 100l49 29q50-54 93-79" fill="url(#metal)" stroke="#686477" stroke-width="5"/>
+    <path d="M618 421q59 27 100 100l-49 29q-50-54-93-79" fill="url(#metal)" stroke="#686477" stroke-width="5"/>
+    <path d="M252 470l-42 67m438-67 42 67" stroke="url(#neon)" stroke-width="7" filter="url(#glow)"/>
+
+    <!-- hands -->
+    <g transform="translate(174 508) rotate(-12)"><rect width="94" height="58" rx="25" fill="url(#metal)" stroke="#ff2d8d" stroke-width="4"/><path d="M14 19h55M13 32h63M20 45h48" stroke="#b8b6c5" stroke-width="7" stroke-linecap="round"/></g>
+    <g transform="translate(632 492) rotate(12)"><rect width="94" height="58" rx="25" fill="url(#metal)" stroke="#22d3ee" stroke-width="4"/><path d="M14 19h55M13 32h63M20 45h48" stroke="#b8b6c5" stroke-width="7" stroke-linecap="round"/></g>
+  </g>
+
+  <!-- DJ deck -->
+  <path d="M115 548Q450 507 785 548l-20 112Q450 693 135 660z" fill="#0c0b13" stroke="url(#neon)" stroke-width="6" filter="url(#glow)"/>
+  <ellipse cx="250" cy="597" rx="96" ry="40" fill="#171520" stroke="#ff2d8d" stroke-width="5"/><ellipse cx="250" cy="597" rx="54" ry="22" fill="#06060b" stroke="#a855f7" stroke-width="4"/><circle cx="250" cy="597" r="9" fill="#22d3ee"/>
+  <ellipse cx="650" cy="597" rx="96" ry="40" fill="#171520" stroke="#22d3ee" stroke-width="5"/><ellipse cx="650" cy="597" rx="54" ry="22" fill="#06060b" stroke="#a855f7" stroke-width="4"/><circle cx="650" cy="597" r="9" fill="#ff2d8d"/>
+  <g fill="#aaa6b8"><rect x="397" y="558" width="12" height="69" rx="5"/><rect x="431" y="548" width="12" height="79" rx="5"/><rect x="465" y="568" width="12" height="59" rx="5"/><rect x="499" y="552" width="12" height="75" rx="5"/></g>
+  <g fill="url(#neon)"><rect x="389" y="586" width="28" height="8" rx="4"/><rect x="423" y="574" width="28" height="8" rx="4"/><rect x="457" y="602" width="28" height="8" rx="4"/><rect x="491" y="582" width="28" height="8" rx="4"/></g>
+  <path d="M164 642q286 32 572 0" fill="none" stroke="#fff" stroke-opacity=".13" stroke-width="3"/>
 </svg>
