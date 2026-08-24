@@ -25,7 +25,7 @@ def fetch_stream_status():
     stream_url=_stream_setting("stream_url","STREAM_URL")
     status_url=_stream_setting("stream_status_url","STREAM_STATUS_URL")
     provider=_stream_setting("stream_provider","STREAM_PROVIDER","azuracast") or "azuracast"
-    base={"configured":bool(stream_url),"stream_url":stream_url,"status_url":status_url,"provider":provider,"listeners":0,"live":False,"mode":"automatic","now_playing":None}
+    base={"configured":bool(stream_url),"stream_url":stream_url,"provider":provider,"listeners":0,"live":False,"mode":"automatic","now_playing":None}
     if not status_url:
         return base
     try:
