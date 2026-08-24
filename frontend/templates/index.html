@@ -14,6 +14,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="/static/css/app.css" rel="stylesheet">
+  <link href="/static/css/home-experience.css" rel="stylesheet">
 </head>
 <body>
 <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="noise-layer"></div>
@@ -47,15 +48,30 @@
       <div class="genre-strip" aria-label="Estilos musicais"><span>FUNK</span><span>HITS</span><span>SERTANEJO</span><span>PAGODE</span><span>FLASHBACK</span></div>
     </div>
 
-    <div class="hero-stage reveal delay-1">
+    <div class="hero-stage hero-stage-v2 reveal delay-1">
       <div class="stage-glow"></div>
-      <img class="hero-art" src="/static/img/hero-radio.svg" alt="Arte musical neon da Rádio Amigos Digital">
-      <div class="now-card">
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+
+      <div class="hero-stage-brand">
+        <img src="/static/img/logo-rad.svg" alt="Mascote Rádio Amigos Digital">
+        <div><small>RÁDIO AMIGOS</small><strong>DIGITAL</strong></div>
+      </div>
+
+      <div class="hero-live-sign"><span class="pulse-dot"></span> NO AR</div>
+
+      <div class="hero-art-shell">
+        <img class="hero-art" src="/static/img/hero-radio.svg" alt="Console musical futurista da Rádio Amigos Digital">
+        <button class="hero-center-play" id="heroVisualPlay" type="button" aria-label="Ouvir Rádio Amigos Digital"><i class="bi bi-play-fill"></i></button>
+      </div>
+
+      <div class="now-card now-card-v2">
         <div class="now-cover" id="heroCover"><img src="/static/img/logo-rad.svg" alt="Capa atual"></div>
-        <div class="now-copy minw"><small>TOCANDO AGORA</small><strong id="heroTitle">Aguardando transmissão</strong><span id="heroArtist">O streaming será conectado quando você escolher o servidor.</span></div>
+        <div class="now-copy minw"><small>TOCANDO AGORA</small><strong id="heroTitle">Rádio Amigos Digital</strong><span id="heroArtist">Streaming pronto para ser conectado</span></div>
+        <div class="now-live-meta d-none d-md-flex"><span><i class="bi bi-broadcast-pin"></i> AO VIVO</span><small>24/7 CONECTADO</small></div>
         <div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       </div>
-      <div class="live-float"><span class="pulse-dot"></span><strong id="listenerCount">0</strong><small>ouvintes</small></div>
+      <div class="live-float live-float-v2"><i class="bi bi-people-fill"></i><strong id="listenerCount">0</strong><small>ouvintes</small></div>
     </div>
   </div>
 
@@ -69,6 +85,46 @@
     <a href="#pedidos" class="action-card action-purple"><i class="bi bi-megaphone-fill"></i><div><small>ALÔ, ALÔ!</small><h3>Manda um recado</h3><p>Dedicatórias para ler ao vivo.</p></div><b>↗</b></a>
     <a href="#enquete" class="action-card action-cyan"><i class="bi bi-bar-chart-fill"></i><div><small>VOCÊ DECIDE</small><h3>Vote na enquete</h3><p>Ajude a escolher o que vem depois.</p></div><b>↗</b></a>
     <a href="#chat" class="action-card action-orange"><i class="bi bi-emoji-laughing-fill"></i><div><small>RESENHA ON</small><h3>Chat da galera</h3><p>Converse, reaja e mande aquele 🔥.</p></div><b>↗</b></a>
+  </div>
+
+  <div class="section-head mt-5"><div><span class="section-kicker">RESENHA AO VIVO</span><h2>Chat da <span>galera</span></h2></div><a href="#chat" class="text-link">Abrir sala completa <i class="bi bi-arrow-right"></i></a></div>
+  <div class="home-chat-layout">
+    <div class="panel home-chat-panel p-3 p-md-4">
+      <div class="home-chat-head">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-2"><span class="pulse-dot"></span><span class="section-kicker">SALA GERAL · AO VIVO</span></div>
+          <h3>Fala aí, a resenha tá rolando.</h3>
+          <p>Converse com ouvintes, DJs e moderadores sem sair da tela inicial.</p>
+        </div>
+        <div class="home-chat-badge"><i class="bi bi-chat-heart-fill"></i> comunidade</div>
+      </div>
+      <div id="homeChatMessages" class="chat-messages home-chat-messages"></div>
+      <div class="home-emoji-row mt-2">
+        <button class="home-emoji-btn" type="button" data-emoji="😀">😀</button>
+        <button class="home-emoji-btn" type="button" data-emoji="🔥">🔥</button>
+        <button class="home-emoji-btn" type="button" data-emoji="❤️">❤️</button>
+        <button class="home-emoji-btn" type="button" data-emoji="🎵">🎵</button>
+      </div>
+      <form id="homeChatForm" class="home-chat-form mt-3">
+        <input id="homeNickname" class="form-control" placeholder="Seu apelido" maxlength="60">
+        <input id="homeChatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required>
+        <button class="btn btn-rad" type="submit"><i class="bi bi-send-fill"></i><span> Enviar</span></button>
+      </form>
+    </div>
+    <aside class="home-community-stack">
+      <div class="panel community-card p-4">
+        <div class="community-icon"><i class="bi bi-headphones"></i></div>
+        <span class="section-kicker">VIBE DA RAD</span>
+        <h3>Mais que ouvir. É participar.</h3>
+        <p>Peça música, mande recado, vote nas enquetes e entre na conversa com a galera.</p>
+        <div class="community-tags"><span>🔥 Reações</span><span>🎙️ DJs</span><span>💬 Chat</span><span>🎵 Pedidos</span></div>
+        <a href="#pedidos" class="btn btn-glass w-100 mt-3">Quero participar</a>
+      </div>
+      <div class="panel home-mini-card p-4">
+        <i class="bi bi-stars"></i>
+        <div><strong>Sua rádio. Sua comunidade.</strong><span>Um espaço feito para ficar ligado com os amigos.</span></div>
+      </div>
+    </aside>
   </div>
 
   <div class="section-head mt-5"><div><span class="section-kicker">VIRAL DA RAD</span><h2>Memes da <span>galera</span></h2></div><a href="#memes" class="text-link">Ver mural completo <i class="bi bi-arrow-right"></i></a></div>
@@ -102,7 +158,7 @@
 
 <section id="enquete" class="view"><div class="page-hero"><span class="section-kicker">VOCÊ DECIDE</span><h2>Enquete <span>ao vivo</span></h2><p>Vote e acompanhe o resultado mudando em tempo real.</p></div><div id="pollBox" class="panel poll-panel p-4"></div></section>
 
-<section id="chat" class="view"><div class="page-hero"><span class="section-kicker">RESENHA ON</span><h2>Chat <span>ao vivo</span></h2><p>Converse com os amigos, DJs e moderadores enquanto a rádio toca.</p></div><div class="row g-4"><div class="col-lg-8"><div class="panel chat-panel p-3"><div class="chat-top"><div><span class="pulse-dot"></span> SALA GERAL</div><span>ao vivo</span></div><div id="chatMessages" class="chat-messages"></div><div class="d-flex gap-2 mt-2"><button class="btn btn-sm btn-dark emoji-btn" data-emoji="😀">😀</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🔥">🔥</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="❤️">❤️</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🎵">🎵</button></div><form id="chatForm" class="d-flex gap-2 mt-2"><input id="nickname" class="form-control nick-input" placeholder="Apelido" maxlength="60"><input id="chatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required><button class="btn btn-rad"><i class="bi bi-send-fill"></i><span class="d-none d-sm-inline"> Enviar</span></button></form></div></div><div class="col-lg-4"><div class="panel p-4"><div class="form-icon"><i class="bi bi-person-circle"></i></div><h4>Conta opcional</h4><p class="text-secondary small">Converse só com apelido ou entre com sua conta para identificar seu perfil.</p><form id="accountLoginForm"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha"><button class="btn btn-sm btn-glass w-100">Entrar</button></form><hr><details><summary class="small">Criar conta</summary><form id="accountRegisterForm" class="mt-3"><input class="form-control form-control-sm mb-2" name="display_name" placeholder="Nome exibido"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário" required><input class="form-control form-control-sm mb-2" name="email" type="email" placeholder="E-mail opcional"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha (8+ caracteres)" required><button class="btn btn-sm btn-rad w-100">Cadastrar</button></form></details><hr><h5>Regras da resenha</h5><p class="text-secondary small">Respeite os participantes. Flood, spam, ofensas e conteúdo ilegal podem resultar em mute ou banimento.</p><a href="/termos-de-uso" class="text-link">Termos de uso</a></div></div></div></section>
+<section id="chat" class="view"><div class="page-hero"><span class="section-kicker">RESENHA ON</span><h2>Chat <span>ao vivo</span></h2><p>Converse com os amigos, DJs e moderadores enquanto a rádio toca.</p></div><div class="row g-4 align-items-start"><div class="col-lg-8"><div class="panel chat-panel p-3 p-md-4"><div class="chat-top chat-top-v2"><div><span class="pulse-dot"></span> SALA GERAL</div><span>ao vivo</span></div><div id="chatMessages" class="chat-messages"></div><div class="d-flex gap-2 mt-2"><button class="btn btn-sm btn-dark emoji-btn" data-emoji="😀">😀</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🔥">🔥</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="❤️">❤️</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🎵">🎵</button></div><form id="chatForm" class="d-flex gap-2 mt-2"><input id="nickname" class="form-control nick-input" placeholder="Apelido" maxlength="60"><input id="chatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required><button class="btn btn-rad"><i class="bi bi-send-fill"></i><span class="d-none d-sm-inline"> Enviar</span></button></form></div></div><div class="col-lg-4"><div class="panel p-4 chat-side-panel"><div class="form-icon"><i class="bi bi-person-circle"></i></div><h4>Conta opcional</h4><p class="text-secondary small">Converse só com apelido ou entre com sua conta para identificar seu perfil.</p><form id="accountLoginForm"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha"><button class="btn btn-sm btn-glass w-100">Entrar</button></form><hr><details><summary class="small">Criar conta</summary><form id="accountRegisterForm" class="mt-3"><input class="form-control form-control-sm mb-2" name="display_name" placeholder="Nome exibido"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário" required><input class="form-control form-control-sm mb-2" name="email" type="email" placeholder="E-mail opcional"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha (8+ caracteres)" required><button class="btn btn-sm btn-rad w-100">Cadastrar</button></form></details><hr><h5>Regras da resenha</h5><p class="text-secondary small">Respeite os participantes. Flood, spam, ofensas e conteúdo ilegal podem resultar em mute ou banimento.</p><a href="/termos-de-uso" class="text-link">Termos de uso</a></div></div></div></section>
 </main>
 
 <footer class="container-fluid container-xl rad-footer"><div class="footer-brand"><img src="/static/img/logo-rad.svg" alt="" width="52"><div><strong>RÁDIO AMIGOS DIGITAL</strong><span>A rádio que toca a sua vibe.</span></div></div><div class="footer-links"><a href="/politica-de-privacidade">Privacidade</a><a href="/termos-de-uso">Termos</a><a href="/admin">Equipe</a></div><small>© 2026 Rádio Amigos Digital</small></footer>
@@ -126,4 +182,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script src="/static/js/app.js"></script>
+<script src="/static/js/home-experience.js"></script>
 </body></html>
