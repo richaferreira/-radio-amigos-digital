@@ -18,9 +18,11 @@ def create_app():
     from .routes.auth import bp as auth_bp
     from .routes.api import bp as api_bp
     from .routes.admin import bp as admin_bp
+    from .routes.community_admin import bp as community_admin_bp
     app.register_blueprint(auth_bp, url_prefix="/api/auth")
     app.register_blueprint(api_bp, url_prefix="/api")
     app.register_blueprint(admin_bp, url_prefix="/api/admin")
+    app.register_blueprint(community_admin_bp, url_prefix="/api/admin/community")
 
     from .sockets.chat import register_socket_handlers
     register_socket_handlers(socketio)
