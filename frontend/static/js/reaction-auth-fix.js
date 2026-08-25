@@ -1,8 +1,11 @@
 (()=>{
+  if(window.__RAD_REACTION_AUTH_FIX__)return;
+  window.__RAD_REACTION_AUTH_FIX__=true;
+
   const TOKEN_KEY='radio_token';
   const reactionSelector='.home-react-btn,.community-react-btn,.react-btn,[data-summary-emoji]';
 
-  function token(){ return localStorage.getItem(TOKEN_KEY)||''; }
+  function token(){return localStorage.getItem(TOKEN_KEY)||'';}
   function toast(message){
     const el=document.querySelector('#toast');
     if(!el)return;
@@ -12,7 +15,7 @@
     toast.t=setTimeout(()=>el.style.display='none',2800);
   }
   function openLogin(){
-    if(typeof window.RAD_OPEN_AUTH==='function') window.RAD_OPEN_AUTH('login');
+    if(typeof window.RAD_OPEN_AUTH==='function')window.RAD_OPEN_AUTH('login');
     else location.hash='#chat';
   }
 
