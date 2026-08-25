@@ -52,7 +52,7 @@
     if(el.matches('input,textarea')){
       el.disabled=!enabled;
       el.classList.toggle('chat-auth-locked',!enabled);
-      if(placeholder)el.placeholder=placeholder;
+      if(placeholder&&el.placeholder!==placeholder)el.placeholder=placeholder;
     }else{
       el.disabled=!enabled;
       el.classList.toggle('chat-auth-locked',!enabled);
@@ -68,7 +68,7 @@
     const homeNick=$('#homeNickname');
     const fullNick=$('#nickname');
     [homeNick,fullNick].filter(Boolean).forEach(el=>{
-      el.value=logged?display:'';
+      if(el.value!==(logged?display:''))el.value=logged?display:'';
       el.readOnly=true;
       el.disabled=!logged;
       el.classList.toggle('chat-auth-locked',!logged);
@@ -95,8 +95,10 @@
       if(!logged){
         const title=panel.querySelector('h4');
         const desc=panel.querySelector('h4 + p');
-        if(title)title.textContent='Login obrigatório';
-        if(desc)desc.textContent='Entre ou crie sua conta para participar da comunidade da Rádio Amigos Digital.';
+        const titleText='Login obrigatório';
+        const descText='Entre ou crie sua conta para participar da comunidade da Rádio Amigos Digital.';
+        if(title&&title.textContent!==titleText)title.textContent=titleText;
+        if(desc&&desc.textContent!==descText)desc.textContent=descText;
       }
     }
   }
@@ -104,8 +106,17 @@
   async function verify(force=false){
     const current=token();
     if(checking)return;
-    if(!current){lastToken='';verifiedUser=null;applyAccess();return;}
-    if(!force&&current===lastToken&&verifiedUser){applyAccess();return;}
+
+    if(!current){
+      if(lastToken===''&&verifiedUser===null&&!force)return;
+      lastToken='';
+      verifiedUser=null;
+      applyAccess();
+      return;
+    }
+
+    if(!force&&current===lastToken&&verifiedUser)return;
+
     checking=true;
     lastToken=current;
     try{
@@ -160,9 +171,10 @@
 
   installStyles();
   verify(true);
-  setInterval(()=>verify(false),700);
+
+  // Poll leve apenas para detectar login/logout feito nesta mesma aba.
+  // Não observa o DOM e não reescreve a página continuamente.
+  setInterval(()=>verify(false),1500);
   setInterval(()=>verify(true),120000);
   window.addEventListener('storage',e=>{if(e.key===TOKEN_KEY)verify(true);});
-  const observer=new MutationObserver(()=>applyAccess());
-  observer.observe(document.body,{childList:true,subtree:true});
 })();
