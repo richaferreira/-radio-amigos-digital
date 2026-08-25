@@ -18,6 +18,13 @@
     if(typeof window.RAD_OPEN_AUTH==='function')window.RAD_OPEN_AUTH('login');
     else location.hash='#chat';
   }
+  function bootHeroPremium(){
+    if(document.querySelector('script[data-rad-hero-premium]'))return;
+    const script=document.createElement('script');
+    script.src='/static/js/hero-premium.js?v=20260825-1';
+    script.dataset.radHeroPremium='1';
+    document.body.appendChild(script);
+  }
 
   document.addEventListener('click',event=>{
     const button=event.target.closest(reactionSelector);
@@ -45,4 +52,6 @@
 
     socket.emit('react_message',{message_id:messageId,emoji,token:jwt});
   },true);
+
+  bootHeroPremium();
 })();
