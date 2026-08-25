@@ -1,1 +1,0 @@
-(()=>{const hero=document.querySelector('.hero-stage-v2 .hero-art');if(!hero)return;hero.style.width='88%';hero.style.height='88%';hero.style.maxWidth='88%';hero.style.objectFit='contain';hero.style.objectPosition='center';})();
