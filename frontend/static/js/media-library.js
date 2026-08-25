@@ -14,7 +14,7 @@
 
   function card(x){
     const sub=[x.artist,x.album].filter(Boolean).join(' · ')||x.original_filename;
-    return `<article class="media-card" data-kind="${esc(x.kind)}" data-search="${esc(`${x.title} ${x.artist||''} ${x.album||''}`.toLowerCase())}"><div class="media-cover"><img src="${esc(x.cover_url)}" alt="Capa de ${esc(x.title)}"><span class="media-type">${x.kind==='album'?'💿 CD / ÁLBUM':'🎵 MÚSICA'}</span></div><div class="media-body"><h3>${esc(x.title)}</h3><div class="media-sub">${esc(sub)}</div>${x.description?`<p class="media-desc">${esc(x.description)}</p>`:''}${x.preview_url?`<audio class="media-audio" controls preload="none" src="${esc(x.preview_url)}"></audio>`:''}<div class="media-stats"><span><i class="bi bi-hdd"></i> ${fmtBytes(x.file_size)}</span><span><i class="bi bi-download"></i> ${Number(x.download_count||0)} downloads</span></div><div class="media-actions"><a class="btn btn-rad" href="${esc(x.download_url)}"><i class="bi bi-download"></i> Baixar</a></div></div></article>`;
+    return `<article class="media-card" data-kind="${esc(x.kind)}"><div class="media-cover"><img src="${esc(x.cover_url)}" alt="Capa de ${esc(x.title)}"><span class="media-type">${x.kind==='album'?'💿 CD / ÁLBUM':'🎵 MÚSICA'}</span></div><div class="media-body"><h3>${esc(x.title)}</h3><div class="media-sub">${esc(sub)}</div>${x.description?`<p class="media-desc">${esc(x.description)}</p>`:''}${x.preview_url?`<audio class="media-audio" controls preload="none" src="${esc(x.preview_url)}"></audio>`:''}<div class="media-stats"><span><i class="bi bi-hdd"></i> ${fmtBytes(x.file_size)}</span><span><i class="bi bi-download"></i> ${Number(x.download_count||0)} downloads</span></div><div class="media-actions"><a class="btn btn-rad" href="${esc(x.download_url)}"><i class="bi bi-download"></i> Baixar</a></div></div></article>`;
   }
 
   function renderList(kind='all',query=''){
@@ -25,7 +25,8 @@
   }
 
   function buildSection(){
-    const section=$('#memes');if(!section)return;
+    const section=$('#media')||$('#memes');if(!section)return;
+    section.id='media';
     section.innerHTML=`<div class="page-hero"><span class="section-kicker">MÍDIA DA RAD</span><h2>Músicas & <span>Downloads</span></h2><p>Baixe músicas, CDs e materiais publicados oficialmente pela Rádio Amigos Digital.</p><div class="media-hero-tools"><input id="mediaSearch" class="form-control media-search" placeholder="Buscar por música, artista ou álbum..."><div class="media-filter"><button class="btn btn-sm btn-rad active" data-media-filter="all">Tudo</button><button class="btn btn-sm btn-glass" data-media-filter="music">Músicas</button><button class="btn btn-sm btn-glass" data-media-filter="album">CDs / Álbuns</button></div></div></div><div id="publicMediaGrid" class="media-grid"></div><div class="panel p-3 mt-4 text-secondary small"><i class="bi bi-info-circle"></i> Os arquivos disponíveis nesta seção são publicados pela administração da Rádio Amigos Digital.</div>`;
     let filter='all';
     $$('.media-filter [data-media-filter]').forEach(btn=>btn.onclick=()=>{$$('.media-filter [data-media-filter]').forEach(x=>x.classList.remove('active'));btn.classList.add('active');filter=btn.dataset.mediaFilter;renderList(filter,$('#mediaSearch')?.value)});
@@ -33,7 +34,7 @@
   }
 
   function renameNavigation(){
-    $$('a[href="#memes"]').forEach(a=>{if(a.closest('.navbar-nav'))a.innerHTML='<i class="bi bi-collection-play"></i> Mídia';else a.textContent='Ver biblioteca completa →'});
+    $$('a[href="#memes"],a[href="#media"]').forEach(a=>{a.href='#media';if(a.closest('.navbar-nav'))a.innerHTML='<i class="bi bi-collection-play"></i> Mídia';else a.innerHTML='Ver biblioteca completa <i class="bi bi-arrow-right"></i>'});
     $$('.marquee-track span').forEach(s=>{if(s.textContent.includes('MEMES'))s.textContent='💿 MÍDIA & DOWNLOADS'});
   }
 
@@ -44,18 +45,19 @@
     const old=head.nextElementSibling;
     head.querySelector('.section-kicker').textContent='MÍDIA DA RAD';
     head.querySelector('h2').innerHTML='Baixe <span>músicas & CDs</span>';
-    const link=head.querySelector('a');if(link){link.href='#memes';link.innerHTML='Abrir biblioteca <i class="bi bi-arrow-right"></i>'}
+    const link=head.querySelector('a');if(link){link.href='#media';link.innerHTML='Abrir biblioteca <i class="bi bi-arrow-right"></i>'}
     if(old?.classList.contains('meme-grid')){
       old.className='media-preview-home';
-      old.innerHTML=media.slice(0,3).map(x=>`<a href="#memes" class="media-preview-item"><img src="${esc(x.cover_url)}" alt=""><div><strong>${esc(x.title)}</strong><span>${esc([x.artist,x.album].filter(Boolean).join(' · ')||'Disponível para download')}</span></div><i class="bi bi-download ms-auto"></i></a>`).join('')||'<div class="text-secondary">A biblioteca será exibida aqui quando o ADM publicar as primeiras músicas ou CDs.</div>';
+      old.innerHTML=media.slice(0,3).map(x=>`<a href="#media" class="media-preview-item"><img src="${esc(x.cover_url)}" alt=""><div><strong>${esc(x.title)}</strong><span>${esc([x.artist,x.album].filter(Boolean).join(' · ')||'Disponível para download')}</span></div><i class="bi bi-download ms-auto"></i></a>`).join('')||'<div class="text-secondary">A biblioteca será exibida aqui quando o ADM publicar as primeiras músicas ou CDs.</div>';
     }
   }
 
   async function load(){
-    styles();renameNavigation();buildSection();
-    try{const r=await fetch('/api/media');if(!r.ok)throw new Error();media=await r.json()}catch{media=[]}
+    styles();buildSection();renameNavigation();
+    try{const r=await fetch('/api/media/');if(!r.ok)throw new Error();media=await r.json()}catch{media=[]}
     renderList();homePreview();
+    if(location.hash==='#memes')location.replace('#media');
   }
 
-  load();window.addEventListener('hashchange',()=>{if(location.hash==='#memes')renderList()});
+  load();window.addEventListener('hashchange',()=>{if(location.hash==='#media')renderList()});
 })();
