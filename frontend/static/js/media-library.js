@@ -52,11 +52,17 @@
     }
   }
 
+  function activateDirectHash(){
+    if(location.hash!=='#media')return;
+    $$('.view').forEach(v=>v.classList.toggle('active',v.id==='media'));
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
   async function load(){
     styles();buildSection();renameNavigation();
     try{const r=await fetch('/api/media/');if(!r.ok)throw new Error();media=await r.json()}catch{media=[]}
     renderList();homePreview();
-    if(location.hash==='#memes')location.replace('#media');
+    if(location.hash==='#memes')location.replace('#media');else activateDirectHash();
   }
 
   load();window.addEventListener('hashchange',()=>{if(location.hash==='#media')renderList()});
