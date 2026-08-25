@@ -34,16 +34,11 @@
 
   async function authSubmit(e,type){
     e.preventDefault();const form=e.currentTarget,btn=form.querySelector('button');btn.disabled=true;
-    try{const r=await fetch(`/api/auth/${type}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(form)))});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.error||'Não foi possível entrar');localStorage.setItem(TOKEN,data.access_token);localStorage.setItem('radio_user',JSON.stringify(data.user));localStorage.setItem('nickname',data.user.display_name||data.user.username);authUser=data.user;toast(type==='login'?`Bem-vindo, ${data.user.display_name}!`:'Conta criada. Bem-vindo à RAD!');$('#chatAuthModal').classList.remove('open');setTimeout(()=>{location.href='/#chat';location.reload()},120)}catch(err){toast(err.message)}finally{btn.disabled=false}
+    try{const r=await fetch(`/api/auth/${type}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(form)))});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.error||'Não foi possível entrar');localStorage.setItem(TOKEN,data.access_token);localStorage.setItem('radio_user',JSON.stringify(data.user));localStorage.setItem('nickname',data.user.display_name||data.user.username);authUser=data.user;toast(type==='login'?`Bem-vindo, ${data.user.display_name}!`:'Conta criada. Bem-vindo à RAD!');$('#chatAuthModal').classList.remove('open');location.hash='#chat';setTimeout(()=>location.reload(),120)}catch(err){toast(err.message)}finally{btn.disabled=false}
   }
 
   function openModal(tab='login'){
     installModal();const modal=$('#chatAuthModal');modal.classList.add('open');const button=modal.querySelector(`[data-auth-tab="${tab}"]`);button?.click();setTimeout(()=>modal.querySelector(`[data-auth-pane="${tab}"] input`)?.focus(),80);
-  }
-
-  async function chatEntry(event){
-    const user=await validate(true);if(user)return;
-    event?.preventDefault();event?.stopImmediatePropagation();openModal('login');
   }
 
   function safeMentions(el){
@@ -57,8 +52,8 @@
 
   function enhanceMessages(){
     $$('.chat-item[data-id]').forEach(item=>{
-      const copy=item.querySelector('.chat-message-copy');safeMentions(copy);
-      if(item.dataset.v3==='1')return;item.dataset.v3='1';
+      safeMentions(item.querySelector('.chat-message-copy'));
+      if(item.querySelector('.chat-v3-actions'))return;
       const profile=item.querySelector('.chat-profile-row')||item.firstElementChild;if(!profile)return;
       const actions=document.createElement('span');actions.className='chat-v3-actions';actions.innerHTML='<button type="button" class="chat-reply-btn" title="Responder"><i class="bi bi-reply"></i> Responder</button>';profile.appendChild(actions);actions.querySelector('button').onclick=async()=>{if(!await validate(true))return openModal();replyTo(item)};
     });
