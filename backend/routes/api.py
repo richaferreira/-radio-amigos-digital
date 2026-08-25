@@ -60,14 +60,17 @@ def _notify_staff(kind, title, body, link="/admin"):
 def chat_song_request():
     data = request.get_json(silent=True) or {}
     user = _request_user()
-    requester = (user.display_name if user else (data.get("requester") or "Ouvinte")).strip()[:80]
+    if not user:
+        return jsonify({"error": "Faça login ou crie uma conta para pedir música pelo chat."}), 401
+    if user.is_banned:
+        return jsonify({"error": "Usuário banido."}), 403
+
+    requester = user.display_name.strip()[:80]
     artist = (data.get("artist") or "").strip()[:120]
     song = (data.get("song") or "").strip()[:120]
     note = (data.get("note") or "").strip()[:250]
     if not artist or not song:
         return jsonify({"error": "Informe artista e música"}), 400
-    if user and user.is_banned:
-        return jsonify({"error": "Usuário banido."}), 403
 
     item = SongRequest(requester=requester, artist=artist, song=song, note=note)
     db.session.add(item)
@@ -77,7 +80,7 @@ def chat_song_request():
     if note:
         text += f" · {note[:120]}"
     chat_message = ChatMessage(
-        user_id=user.id if user else None,
+        user_id=user.id,
         nickname="🎵 Pedido musical",
         role="system",
         message=text[:500],
