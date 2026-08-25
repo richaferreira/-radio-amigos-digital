@@ -1,0 +1,1 @@
+hero binary update pending
