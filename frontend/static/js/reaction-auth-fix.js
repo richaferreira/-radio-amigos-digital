@@ -19,15 +19,6 @@
     else location.hash='#chat';
   }
 
-  function ensureMediaLibrary(){
-    if(window.__RAD_MEDIA_LIBRARY_BOOTED__||document.querySelector('script[data-rad-media-library]'))return;
-    const script=document.createElement('script');
-    script.dataset.radMediaLibrary='1';
-    script.src='/static/js/media-library.js?v=20260825-2';
-    script.onload=()=>{window.__RAD_MEDIA_LIBRARY_BOOTED__=true;};
-    document.body.appendChild(script);
-  }
-
   document.addEventListener('click',event=>{
     const button=event.target.closest(reactionSelector);
     if(!button)return;
@@ -54,6 +45,4 @@
 
     socket.emit('react_message',{message_id:messageId,emoji,token:jwt});
   },true);
-
-  ensureMediaLibrary();
 })();
