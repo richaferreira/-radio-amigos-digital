@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 from flask import Blueprint, current_app, jsonify, request, send_from_directory
@@ -19,7 +20,7 @@ ALBUM_EXTENSIONS = {".zip"}
 COVER_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 ALLOWED_EXTENSIONS = MUSIC_EXTENSIONS | ALBUM_EXTENSIONS
 CHUNK_SIZE = 5 * 1024 * 1024
-MAX_MEDIA_SIZE = 1024 * 1024 * 1024  # 1 GB por item
+MAX_MEDIA_SIZE = 1024 * 1024 * 1024
 MAX_COVER_SIZE = 5 * 1024 * 1024
 
 
@@ -38,7 +39,7 @@ class DownloadMedia(db.Model):
     file_size = db.Column(db.BigInteger, default=0)
     download_count = db.Column(db.Integer, default=0)
     active = db.Column(db.Boolean, default=True, index=True)
-    created_at = db.Column(db.DateTime(timezone=True), default=lambda: __import__("datetime").datetime.now(__import__("datetime").timezone.utc), index=True)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), index=True)
 
     def to_dict(self):
         suffix = Path(self.filename).suffix.lower()
@@ -89,7 +90,6 @@ def _audit(action, details=""):
     db.session.add(AuditLog(user_id=uid, action=action[:120], details=details[:1000]))
 
 
-@bp.get("")
 @bp.get("/")
 def public_media():
     rows = DownloadMedia.query.filter_by(active=True).order_by(desc(DownloadMedia.created_at), desc(DownloadMedia.id)).all()
@@ -108,12 +108,7 @@ def download_media(item_id):
         return jsonify({"error": "Arquivo indisponível no servidor"}), 404
     item.download_count = int(item.download_count or 0) + 1
     db.session.commit()
-    return send_from_directory(
-        str(files),
-        item.filename,
-        as_attachment=True,
-        download_name=item.original_filename,
-    )
+    return send_from_directory(str(files), item.filename, as_attachment=True, download_name=item.original_filename)
 
 
 @bp.get("/admin")
@@ -133,7 +128,6 @@ def init_upload():
         expected_size = int(data.get("size") or 0)
     except (TypeError, ValueError):
         expected_size = 0
-
     if not original or suffix not in ALLOWED_EXTENSIONS:
         return jsonify({"error": "Formato não permitido. Use MP3, OGG, WAV, FLAC, M4A, AAC ou ZIP."}), 400
     if expected_size <= 0 or expected_size > MAX_MEDIA_SIZE:
@@ -175,7 +169,6 @@ def upload_chunk(upload_id):
     folder = chunks / upload_id
     if not folder.is_dir() or not (folder / "meta.json").is_file():
         return jsonify({"error": "Upload expirado ou inexistente"}), 404
-
     data = request.get_data(cache=False)
     if not data or len(data) > CHUNK_SIZE + 64 * 1024:
         return jsonify({"error": "Parte vazia ou grande demais"}), 413
@@ -194,15 +187,13 @@ def complete_upload(upload_id):
     meta_path = folder / "meta.json"
     if not meta_path.is_file():
         return jsonify({"error": "Upload expirado ou inexistente"}), 404
-
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     parts = sorted(folder.glob("part-*"))
     if not parts:
         return jsonify({"error": "Nenhuma parte recebida"}), 400
 
     final_name = f"{uuid.uuid4().hex}{meta['suffix']}"
-    temp_name = f".{final_name}.part"
-    temp_path = files / temp_name
+    temp_path = files / f".{final_name}.part"
     final_path = files / final_name
     written = 0
     try:
