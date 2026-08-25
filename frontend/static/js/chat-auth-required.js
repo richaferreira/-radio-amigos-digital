@@ -106,32 +106,19 @@
   async function verify(force=false){
     const current=token();
     if(checking)return;
-
     if(!current){
       if(lastToken===''&&verifiedUser===null&&!force)return;
-      lastToken='';
-      verifiedUser=null;
-      applyAccess();
-      return;
+      lastToken='';verifiedUser=null;applyAccess();return;
     }
-
     if(!force&&current===lastToken&&verifiedUser)return;
-
-    checking=true;
-    lastToken=current;
+    checking=true;lastToken=current;
     try{
       const response=await fetch('/api/auth/me',{headers:{Authorization:`Bearer ${current}`}});
       if(!response.ok)throw new Error('Sessão inválida');
       verifiedUser=await response.json();
     }catch{
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem('radio_user');
-      verifiedUser=null;
-      lastToken='';
-    }finally{
-      checking=false;
-      applyAccess();
-    }
+      localStorage.removeItem(TOKEN_KEY);localStorage.removeItem('radio_user');verifiedUser=null;lastToken='';
+    }finally{checking=false;applyAccess();}
   }
 
   function messageIdFor(el){return Number(el.closest('.chat-item[data-id]')?.dataset.id||0);}
@@ -140,41 +127,28 @@
   document.addEventListener('click',event=>{
     const react=event.target.closest('.home-react-btn,.community-react-btn,.react-btn,[data-summary-emoji]');
     if(react){
-      event.preventDefault();
-      event.stopImmediatePropagation();
+      event.preventDefault();event.stopImmediatePropagation();
       if(!verifiedUser){notify('Faça login para reagir às mensagens.');goLogin();return;}
-      const messageId=messageIdFor(react);
-      const emoji=emojiFor(react);
-      if(messageId&&emoji&&typeof socket!=='undefined'){
-        socket.emit('react_message',{message_id:messageId,emoji,token:token()});
-      }
+      const messageId=messageIdFor(react),emoji=emojiFor(react);
+      if(messageId&&emoji&&typeof socket!=='undefined')socket.emit('react_message',{message_id:messageId,emoji,token:token()});
       return;
     }
-
     const protectedControl=event.target.closest('.reaction-picker-toggle,.composer-emoji-toggle,[data-compose-emoji],#homeSongRequestBtn,#fullSongRequestBtn');
-    if(protectedControl&&!verifiedUser){
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      notify('Faça login ou crie uma conta para usar este recurso.');
-      goLogin();
-    }
+    if(protectedControl&&!verifiedUser){event.preventDefault();event.stopImmediatePropagation();notify('Faça login ou crie uma conta para usar este recurso.');goLogin();}
   },true);
 
   document.addEventListener('submit',event=>{
     if(!event.target.matches('#homeChatForm,#chatForm,#chatSongRequestForm'))return;
     if(verifiedUser)return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    notify('Faça login ou crie uma conta para participar do chat.');
-    goLogin();
+    event.preventDefault();event.stopImmediatePropagation();notify('Faça login ou crie uma conta para participar do chat.');goLogin();
   },true);
 
-  installStyles();
-  verify(true);
+  function loadExtra(src,id){if(document.getElementById(id))return;const s=document.createElement('script');s.id=id;s.src=src;document.body.appendChild(s)}
 
-  // Poll leve apenas para detectar login/logout feito nesta mesma aba.
-  // Não observa o DOM e não reescreve a página continuamente.
+  installStyles();verify(true);
   setInterval(()=>verify(false),1500);
   setInterval(()=>verify(true),120000);
   window.addEventListener('storage',e=>{if(e.key===TOKEN_KEY)verify(true);});
+  loadExtra('/static/js/chat-login-modal.js?v=20260824-2214','chatLoginModalScript');
+  loadExtra('/static/js/media-library.js?v=20260824-2214','mediaLibraryScript');
 })();
