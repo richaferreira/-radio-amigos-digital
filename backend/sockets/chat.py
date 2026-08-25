@@ -23,6 +23,16 @@ def allowed(sid):
     return True
 
 
+def user_from_token(token):
+    if not token:
+        return None
+    try:
+        payload = decode_token(token)
+        return db.session.get(User, int(payload["sub"]))
+    except Exception:
+        return None
+
+
 def notify_mentions(message, author_name):
     text = (message.message or "").casefold()
     staff = User.query.filter(User.role.in_(["moderator", "admin"]), User.is_banned.is_(False)).all()
@@ -60,43 +70,44 @@ def register_socket_handlers(socketio):
             return
 
         data = data or {}
-        nickname = (data.get("nickname") or "Ouvinte").strip()[:60]
         text = clean_chat_text(data.get("message"))
-        token = data.get("token")
+        user = user_from_token(data.get("token"))
+
+        if not user:
+            emit("chat_error", {"error": "Faça login ou crie uma conta para participar do chat."})
+            return
         if not text:
             return
+        if user.is_banned:
+            emit("chat_error", {"error": "Usuário banido."})
+            return
+        if user.is_muted:
+            emit("chat_error", {"error": "Usuário mutado."})
+            return
 
-        role = "listener"
-        user_id = None
-        user = None
-        if token:
-            try:
-                payload = decode_token(token)
-                user_id = int(payload["sub"])
-                user = db.session.get(User, user_id)
-                if user:
-                    if user.is_banned:
-                        emit("chat_error", {"error": "Usuário banido."})
-                        return
-                    if user.is_muted:
-                        emit("chat_error", {"error": "Usuário mutado."})
-                        return
-                    nickname = user.display_name
-                    role = user.role
-            except Exception:
-                user_id = None
-                user = None
-
-        message = ChatMessage(user_id=user_id, nickname=nickname, role=role, message=text)
+        message = ChatMessage(
+            user_id=user.id,
+            nickname=user.display_name,
+            role=user.role,
+            message=text,
+        )
         db.session.add(message)
         db.session.flush()
-        notify_mentions(message, nickname)
+        notify_mentions(message, user.display_name)
         db.session.commit()
         socketio.emit("chat_message", message.to_dict())
 
     @socketio.on("react_message")
     def on_react(data):
         data = data or {}
+        user = user_from_token(data.get("token"))
+        if not user:
+            emit("chat_error", {"error": "Faça login para reagir às mensagens."})
+            return
+        if user.is_banned:
+            emit("chat_error", {"error": "Usuário banido."})
+            return
+
         mid = data.get("message_id")
         emoji = data.get("emoji")
         if emoji not in REACTIONS:
@@ -105,9 +116,11 @@ def register_socket_handlers(socketio):
             mid = int(mid)
         except (TypeError, ValueError):
             return
+
         message = db.session.get(ChatMessage, mid)
         if not message or message.deleted:
             return
+
         reaction = ChatReaction.query.filter_by(message_id=message.id, emoji=emoji).first()
         if not reaction:
             reaction = ChatReaction(message_id=message.id, emoji=emoji, count=0)
