@@ -72,7 +72,7 @@ def create_app():
         response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
         response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
         response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
-        if request.path.startswith("/static/js/") or request.path.endswith("/hero-radio.svg"):
+        if request.path.startswith("/static/js/") or request.path.endswith("/hero-radio.svg") or request.path.endswith("/hero-radio-real.webp"):
             response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
             response.headers["Pragma"] = "no-cache"
             response.headers["Expires"] = "0"
