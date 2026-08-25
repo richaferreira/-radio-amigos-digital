@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 320 320" role="img" aria-label="Robô DJ cibernético fotorealista da Rádio Amigos Digital">
   <defs>
     <filter id="softGlow" x="-12%" y="-12%" width="124%" height="124%">
-      <feGaussianBlur stdDeviation="1.4" result="blur"/>
+      <feGaussianBlur stdDeviation="1.15" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
   <rect width="320" height="320" rx="22" fill="#05030b"/>
-  <image href="/static/img/hero-radio-real.webp?v=20260825-1" xlink:href="/static/img/hero-radio-real.webp?v=20260825-1" x="0" y="0" width="320" height="320" preserveAspectRatio="xMidYMid slice" filter="url(#softGlow)"/>
+  <image href="/static/img/hero-radio-real.webp?v=20260825-2" xlink:href="/static/img/hero-radio-real.webp?v=20260825-2" x="-11" y="-35" width="342" height="342" preserveAspectRatio="xMidYMid slice" filter="url(#softGlow)"/>
 </svg>
