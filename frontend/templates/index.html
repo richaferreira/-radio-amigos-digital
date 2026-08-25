@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0a0712">
   <title>Rádio Amigos Digital | Música, resenha e participação ao vivo</title>
-  <meta name="description" content="Rádio Amigos Digital: música, programas ao vivo, pedidos, memes, chat, enquetes e muita resenha em tempo real.">
+  <meta name="description" content="Rádio Amigos Digital: música, programas ao vivo, pedidos, mídia para download, chat, enquetes e muita resenha em tempo real.">
   <meta property="og:title" content="Rádio Amigos Digital">
   <meta property="og:description" content="A rádio que toca a sua vibe. Ouça ao vivo e participe da programação.">
   <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
     <button class="navbar-toggler border-0 shadow-none" data-bs-toggle="collapse" data-bs-target="#nav" aria-label="Abrir menu"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="nav">
       <div class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-        <a class="nav-link" href="#home">Início</a><a class="nav-link" href="#programacao">Programação</a><a class="nav-link" href="#pedidos">Pedidos</a><a class="nav-link" href="#locutores">Locutores</a><a class="nav-link" href="#ranking">Ranking</a><a class="nav-link" href="#memes">Memes</a><a class="nav-link" href="#enquete">Enquete</a><a class="nav-link nav-chat" href="#chat"><i class="bi bi-chat-dots-fill"></i> Chat</a>
+        <a class="nav-link" href="#home">Início</a><a class="nav-link" href="#programacao">Programação</a><a class="nav-link" href="#pedidos">Pedidos</a><a class="nav-link" href="#locutores">Locutores</a><a class="nav-link" href="#ranking">Ranking</a><a class="nav-link" href="#media"><i class="bi bi-collection-play"></i> Mídia</a><a class="nav-link" href="#enquete">Enquete</a><a class="nav-link nav-chat" href="#chat"><i class="bi bi-chat-dots-fill"></i> Chat</a>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
     <div class="hero-copy reveal">
       <div class="eyebrow"><span class="pulse-dot"></span> A RÁDIO QUE TOCA A SUA VIBE</div>
       <h1>Rádio <span>Amigos</span><br>Digital.</h1>
-      <p class="hero-lead">Música, resenha, pedidos, memes e participação ao vivo. Uma rádio feita para conectar amigos e transformar cada programa em entretenimento.</p>
+      <p class="hero-lead">Música, resenha, pedidos, mídia para download e participação ao vivo. Uma rádio feita para conectar amigos e transformar cada programa em entretenimento.</p>
       <div class="hero-actions">
         <button class="btn btn-rad btn-lg" id="heroPlay"><i class="bi bi-play-fill"></i> Ouvir agora</button>
         <a href="#chat" class="btn btn-glass btn-lg"><i class="bi bi-chat-heart"></i> Entrar na resenha</a>
@@ -52,31 +52,15 @@
       <div class="stage-glow"></div>
       <div class="hero-orbit orbit-one" aria-hidden="true"></div>
       <div class="hero-orbit orbit-two" aria-hidden="true"></div>
-
-      <div class="hero-stage-brand">
-        <img src="/static/img/logo-rad.svg" alt="Mascote Rádio Amigos Digital">
-        <div><small>RÁDIO AMIGOS</small><strong>DIGITAL</strong></div>
-      </div>
-
+      <div class="hero-stage-brand"><img src="/static/img/logo-rad.svg" alt="Mascote Rádio Amigos Digital"><div><small>RÁDIO AMIGOS</small><strong>DIGITAL</strong></div></div>
       <div class="hero-live-sign"><span class="pulse-dot"></span> NO AR</div>
-
-      <div class="hero-art-shell">
-        <img class="hero-art" src="/static/img/hero-radio.svg" alt="Console musical futurista da Rádio Amigos Digital">
-        <button class="hero-center-play" id="heroVisualPlay" type="button" aria-label="Ouvir Rádio Amigos Digital"><i class="bi bi-play-fill"></i></button>
-      </div>
-
-      <div class="now-card now-card-v2">
-        <div class="now-cover" id="heroCover"><img src="/static/img/logo-rad.svg" alt="Capa atual"></div>
-        <div class="now-copy minw"><small>TOCANDO AGORA</small><strong id="heroTitle">Rádio Amigos Digital</strong><span id="heroArtist">Streaming pronto para ser conectado</span></div>
-        <div class="now-live-meta d-none d-md-flex"><span><i class="bi bi-broadcast-pin"></i> AO VIVO</span><small>24/7 CONECTADO</small></div>
-        <div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
+      <div class="hero-art-shell"><img class="hero-art" src="/static/img/hero-radio.svg" alt="Console musical futurista da Rádio Amigos Digital"><button class="hero-center-play" id="heroVisualPlay" type="button" aria-label="Ouvir Rádio Amigos Digital"><i class="bi bi-play-fill"></i></button></div>
+      <div class="now-card now-card-v2"><div class="now-cover" id="heroCover"><img src="/static/img/logo-rad.svg" alt="Capa atual"></div><div class="now-copy minw"><small>TOCANDO AGORA</small><strong id="heroTitle">Rádio Amigos Digital</strong><span id="heroArtist">Streaming pronto para ser conectado</span></div><div class="now-live-meta d-none d-md-flex"><span><i class="bi bi-broadcast-pin"></i> AO VIVO</span><small>24/7 CONECTADO</small></div><div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div>
       <div class="live-float live-float-v2"><i class="bi bi-people-fill"></i><strong id="listenerCount">0</strong><small>ouvintes</small></div>
     </div>
   </div>
 
-  <div class="marquee-shell mt-4"><div class="marquee-track"><span>🔥 FUNK NA PRESSÃO</span><span>🎙️ PROGRAMAS AO VIVO</span><span>😂 MEMES DA GALERA</span><span>🎵 PEÇA SUA MÚSICA</span><span>💬 CHAT EM TEMPO REAL</span><span>🏆 RANKING DA SEMANA</span><span>🔥 FUNK NA PRESSÃO</span><span>🎙️ PROGRAMAS AO VIVO</span></div></div>
-
+  <div class="marquee-shell mt-4"><div class="marquee-track"><span>🔥 FUNK NA PRESSÃO</span><span>🎙️ PROGRAMAS AO VIVO</span><span>💿 MÍDIA & DOWNLOADS</span><span>🎵 PEÇA SUA MÚSICA</span><span>💬 CHAT EM TEMPO REAL</span><span>🏆 RANKING DA SEMANA</span><span>🔥 FUNK NA PRESSÃO</span><span>🎙️ PROGRAMAS AO VIVO</span></div></div>
   <div id="ads" class="row g-3 mt-4"></div>
 
   <div class="section-head mt-5"><div><span class="section-kicker">PARTICIPE</span><h2>Você não só ouve. <span>Você faz parte.</span></h2></div><p>Interaja em tempo real com a programação.</p></div>
@@ -90,97 +74,44 @@
   <div class="section-head mt-5"><div><span class="section-kicker">RESENHA AO VIVO</span><h2>Chat da <span>galera</span></h2></div><a href="#chat" class="text-link">Abrir sala completa <i class="bi bi-arrow-right"></i></a></div>
   <div class="home-chat-layout">
     <div class="panel home-chat-panel p-3 p-md-4">
-      <div class="home-chat-head">
-        <div>
-          <div class="d-flex align-items-center gap-2 mb-2"><span class="pulse-dot"></span><span class="section-kicker">SALA GERAL · AO VIVO</span></div>
-          <h3>Fala aí, a resenha tá rolando.</h3>
-          <p>Converse com ouvintes, DJs e moderadores sem sair da tela inicial.</p>
-        </div>
-        <div class="home-chat-badge"><i class="bi bi-chat-heart-fill"></i> comunidade</div>
-      </div>
+      <div class="home-chat-head"><div><div class="d-flex align-items-center gap-2 mb-2"><span class="pulse-dot"></span><span class="section-kicker">SALA GERAL · AO VIVO</span></div><h3>Fala aí, a resenha tá rolando.</h3><p>Converse com ouvintes, DJs e moderadores sem sair da tela inicial.</p></div><div class="home-chat-badge"><i class="bi bi-chat-heart-fill"></i> comunidade</div></div>
       <div id="homeChatMessages" class="chat-messages home-chat-messages"></div>
-      <div class="home-emoji-row mt-2">
-        <button class="home-emoji-btn" type="button" data-emoji="😀">😀</button>
-        <button class="home-emoji-btn" type="button" data-emoji="🔥">🔥</button>
-        <button class="home-emoji-btn" type="button" data-emoji="❤️">❤️</button>
-        <button class="home-emoji-btn" type="button" data-emoji="🎵">🎵</button>
-      </div>
-      <form id="homeChatForm" class="home-chat-form mt-3">
-        <input id="homeNickname" class="form-control" placeholder="Seu apelido" maxlength="60">
-        <input id="homeChatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required>
-        <button class="btn btn-rad" type="submit"><i class="bi bi-send-fill"></i><span> Enviar</span></button>
-      </form>
+      <div class="home-emoji-row mt-2"><button class="home-emoji-btn" type="button" data-emoji="😀">😀</button><button class="home-emoji-btn" type="button" data-emoji="🔥">🔥</button><button class="home-emoji-btn" type="button" data-emoji="❤️">❤️</button><button class="home-emoji-btn" type="button" data-emoji="🎵">🎵</button></div>
+      <form id="homeChatForm" class="home-chat-form mt-3"><input id="homeNickname" class="form-control" placeholder="Seu apelido" maxlength="60"><input id="homeChatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required><button class="btn btn-rad" type="submit"><i class="bi bi-send-fill"></i><span> Enviar</span></button></form>
     </div>
-    <aside class="home-community-stack">
-      <div class="panel community-card p-4">
-        <div class="community-icon"><i class="bi bi-headphones"></i></div>
-        <span class="section-kicker">VIBE DA RAD</span>
-        <h3>Mais que ouvir. É participar.</h3>
-        <p>Peça música, mande recado, vote nas enquetes e entre na conversa com a galera.</p>
-        <div class="community-tags"><span>🔥 Reações</span><span>🎙️ DJs</span><span>💬 Chat</span><span>🎵 Pedidos</span></div>
-        <a href="#pedidos" class="btn btn-glass w-100 mt-3">Quero participar</a>
-      </div>
-      <div class="panel home-mini-card p-4">
-        <i class="bi bi-stars"></i>
-        <div><strong>Sua rádio. Sua comunidade.</strong><span>Um espaço feito para ficar ligado com os amigos.</span></div>
-      </div>
-    </aside>
+    <aside class="home-community-stack"><div class="panel community-card p-4"><div class="community-icon"><i class="bi bi-headphones"></i></div><span class="section-kicker">VIBE DA RAD</span><h3>Mais que ouvir. É participar.</h3><p>Peça música, mande recado, vote nas enquetes e entre na conversa com a galera.</p><div class="community-tags"><span>🔥 Reações</span><span>🎙️ DJs</span><span>💬 Chat</span><span>🎵 Pedidos</span></div><a href="#pedidos" class="btn btn-glass w-100 mt-3">Quero participar</a></div><div class="panel home-mini-card p-4"><i class="bi bi-stars"></i><div><strong>Sua rádio. Sua comunidade.</strong><span>Um espaço feito para ficar ligado com os amigos.</span></div></div></aside>
   </div>
 
-  <div class="section-head mt-5"><div><span class="section-kicker">VIRAL DA RAD</span><h2>Memes da <span>galera</span></h2></div><a href="#memes" class="text-link">Ver mural completo <i class="bi bi-arrow-right"></i></a></div>
-  <div class="meme-grid meme-preview">
-    <article class="meme-card"><img src="/static/img/meme-01.svg" alt="Meme: quando toca aquela música"><div class="meme-meta"><strong>Quando toca aquela música...</strong><span>🔥 128</span></div></article>
-    <article class="meme-card"><img src="/static/img/meme-02.svg" alt="Meme: só mais uma música"><div class="meme-meta"><strong>Quem nunca?</strong><span>😂 96</span></div></article>
-    <article class="meme-card"><img src="/static/img/meme-03.svg" alt="Meme: quando o DJ acerta a sequência"><div class="meme-meta"><strong>DJ acertou a sequência</strong><span>❤️ 143</span></div></article>
-  </div>
+  <div class="section-head mt-5"><div><span class="section-kicker">MÍDIA DA RAD</span><h2>Baixe <span>músicas & CDs</span></h2></div><a href="#media" class="text-link">Abrir biblioteca <i class="bi bi-arrow-right"></i></a></div>
+  <div class="media-preview-home"><div class="text-secondary">A biblioteca será exibida aqui quando o ADM publicar as primeiras músicas ou CDs.</div></div>
 
   <div class="section-head mt-5"><div><span class="section-kicker">RECENTEMENTE</span><h2>Últimas <span>tocadas</span></h2></div><a href="#ranking" class="text-link">Ver ranking <i class="bi bi-arrow-right"></i></a></div>
   <div id="historyList" class="history-grid"></div>
-
   <div class="cta-banner mt-5"><div><span class="section-kicker">RÁDIO AMIGOS DIGITAL</span><h2>Tem ideia para um programa?</h2><p>Essa rádio foi pensada para ser viva, participativa e crescer junto com a comunidade.</p></div><a href="#chat" class="btn btn-light btn-lg">Falar com a galera</a></div>
 </section>
 
-<section id="programacao" class="view">
-  <div class="page-hero"><span class="section-kicker">NO AR TODO DIA</span><h2>Grade de <span>programação</span></h2><p>Programas, horários, apresentadores e aquela resenha que você já conhece.</p></div>
-  <div id="programList" class="row g-4"></div>
-</section>
-
-<section id="pedidos" class="view">
-  <div class="page-hero"><span class="section-kicker">VOCÊ MANDA</span><h2>Pedido & <span>dedicatória</span></h2><p>Escolha a música, deixe seu recado e participe da programação.</p></div>
-  <div class="row g-4"><div class="col-lg-6"><form id="requestForm" class="panel form-panel p-4"><div class="form-icon"><i class="bi bi-music-note-beamed"></i></div><h3>Peça sua música</h3><p class="text-secondary">O locutor recebe e pode aprovar seu pedido.</p><input class="form-control mb-3" name="requester" placeholder="Seu nome" required><input class="form-control mb-3" name="artist" placeholder="Artista" required><input class="form-control mb-3" name="song" placeholder="Música" required><textarea class="form-control mb-3" name="note" placeholder="Recado opcional"></textarea><button class="btn btn-rad w-100">Enviar pedido <i class="bi bi-send-fill"></i></button></form><form id="dedicationForm" class="panel form-panel p-4 mt-4"><div class="form-icon alt"><i class="bi bi-heart-fill"></i></div><h3>Dedicatória</h3><input class="form-control mb-3" name="sender" placeholder="Seu nome" required><input class="form-control mb-3" name="recipient" placeholder="Para quem?" required><textarea class="form-control mb-3" name="message" placeholder="Mensagem" required></textarea><button class="btn btn-glass w-100">Enviar dedicatória</button></form></div><div class="col-lg-6"><div class="panel p-4 queue-panel"><div class="d-flex justify-content-between align-items-center"><div><span class="section-kicker">NA FILA</span><h3>Pedidos da galera</h3></div><i class="bi bi-vinyl-fill queue-vinyl"></i></div><div id="requestQueue" class="mt-3"></div></div></div></div>
-</section>
-
+<section id="programacao" class="view"><div class="page-hero"><span class="section-kicker">NO AR TODO DIA</span><h2>Grade de <span>programação</span></h2><p>Programas, horários, apresentadores e aquela resenha que você já conhece.</p></div><div id="programList" class="row g-4"></div></section>
+<section id="pedidos" class="view"><div class="page-hero"><span class="section-kicker">VOCÊ MANDA</span><h2>Pedido & <span>dedicatória</span></h2><p>Escolha a música, deixe seu recado e participe da programação.</p></div><div class="row g-4"><div class="col-lg-6"><form id="requestForm" class="panel form-panel p-4"><div class="form-icon"><i class="bi bi-music-note-beamed"></i></div><h3>Peça sua música</h3><p class="text-secondary">O locutor recebe e pode aprovar seu pedido.</p><input class="form-control mb-3" name="requester" placeholder="Seu nome" required><input class="form-control mb-3" name="artist" placeholder="Artista" required><input class="form-control mb-3" name="song" placeholder="Música" required><textarea class="form-control mb-3" name="note" placeholder="Recado opcional"></textarea><button class="btn btn-rad w-100">Enviar pedido <i class="bi bi-send-fill"></i></button></form><form id="dedicationForm" class="panel form-panel p-4 mt-4"><div class="form-icon alt"><i class="bi bi-heart-fill"></i></div><h3>Dedicatória</h3><input class="form-control mb-3" name="sender" placeholder="Seu nome" required><input class="form-control mb-3" name="recipient" placeholder="Para quem?" required><textarea class="form-control mb-3" name="message" placeholder="Mensagem" required></textarea><button class="btn btn-glass w-100">Enviar dedicatória</button></form></div><div class="col-lg-6"><div class="panel p-4 queue-panel"><div class="d-flex justify-content-between align-items-center"><div><span class="section-kicker">NA FILA</span><h3>Pedidos da galera</h3></div><i class="bi bi-vinyl-fill queue-vinyl"></i></div><div id="requestQueue" class="mt-3"></div></div></div></div></section>
 <section id="locutores" class="view"><div class="page-hero"><span class="section-kicker">QUEM FAZ A RESENHA</span><h2>Locutores & <span>DJs</span></h2><p>Conheça as vozes e personalidades da Rádio Amigos Digital.</p></div><div id="djList" class="row g-4"></div></section>
-
 <section id="ranking" class="view"><div class="page-hero"><span class="section-kicker">TOP DA SEMANA</span><h2>O que está <span>bombando</span></h2><p>As mais pedidas e as mais tocadas na RAD.</p></div><div class="row g-4"><div class="col-lg-6"><div class="panel ranking-panel p-4"><div class="ranking-head"><i class="bi bi-fire"></i><div><small>TOP PEDIDOS</small><h3>Mais pedidas</h3></div></div><div id="requestedRanking"></div></div></div><div class="col-lg-6"><div class="panel ranking-panel p-4"><div class="ranking-head cyan"><i class="bi bi-broadcast-pin"></i><div><small>NO AR</small><h3>Mais tocadas</h3></div></div><div id="playedRanking"></div></div></div></div></section>
 
-<section id="memes" class="view"><div class="page-hero"><span class="section-kicker">RISADA LIBERADA</span><h2>Memes da <span>RAD</span></h2><p>Conteúdo original para compartilhar, rir e entrar no clima da programação.</p></div><div class="meme-grid"><article class="meme-card big"><img src="/static/img/meme-01.svg" alt="Meme: quando toca aquela música"><div class="meme-meta"><div><small>#RADMEMES</small><strong>Quando toca aquela música...</strong></div><button class="meme-like" type="button">🔥 <span>128</span></button></div></article><article class="meme-card big"><img src="/static/img/meme-02.svg" alt="Meme: só mais uma música"><div class="meme-meta"><div><small>#QUEMNUNCA</small><strong>Só mais uma música...</strong></div><button class="meme-like" type="button">😂 <span>96</span></button></div></article><article class="meme-card big"><img src="/static/img/meme-03.svg" alt="Meme: DJ acerta a sequência"><div class="meme-meta"><div><small>#DJNAVE</small><strong>Sequência perfeita</strong></div><button class="meme-like" type="button">❤️ <span>143</span></button></div></article></div><div class="panel p-4 mt-4 meme-note"><i class="bi bi-stars"></i><div><h4>Mural pronto para evoluir</h4><p class="mb-0 text-secondary">A estrutura já está preparada para você substituir as artes por memes, fotos, reels, cards de promoções e conteúdos enviados pela comunidade.</p></div></div></section>
+<section id="media" class="view"><div class="page-hero"><span class="section-kicker">MÍDIA DA RAD</span><h2>Músicas & <span>Downloads</span></h2><p>Baixe músicas, CDs e materiais publicados oficialmente pela Rádio Amigos Digital.</p></div><div id="publicMediaGrid" class="media-grid"><div class="text-secondary">Carregando biblioteca...</div></div></section>
 
 <section id="enquete" class="view"><div class="page-hero"><span class="section-kicker">VOCÊ DECIDE</span><h2>Enquete <span>ao vivo</span></h2><p>Vote e acompanhe o resultado mudando em tempo real.</p></div><div id="pollBox" class="panel poll-panel p-4"></div></section>
-
-<section id="chat" class="view"><div class="page-hero"><span class="section-kicker">RESENHA ON</span><h2>Chat <span>ao vivo</span></h2><p>Converse com os amigos, DJs e moderadores enquanto a rádio toca.</p></div><div class="row g-4 align-items-start"><div class="col-lg-8"><div class="panel chat-panel p-3 p-md-4"><div class="chat-top chat-top-v2"><div><span class="pulse-dot"></span> SALA GERAL</div><span>ao vivo</span></div><div id="chatMessages" class="chat-messages"></div><div class="d-flex gap-2 mt-2"><button class="btn btn-sm btn-dark emoji-btn" data-emoji="😀">😀</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🔥">🔥</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="❤️">❤️</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🎵">🎵</button></div><form id="chatForm" class="d-flex gap-2 mt-2"><input id="nickname" class="form-control nick-input" placeholder="Apelido" maxlength="60"><input id="chatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required><button class="btn btn-rad"><i class="bi bi-send-fill"></i><span class="d-none d-sm-inline"> Enviar</span></button></form></div></div><div class="col-lg-4"><div class="panel p-4 chat-side-panel"><div class="form-icon"><i class="bi bi-person-circle"></i></div><h4>Conta opcional</h4><p class="text-secondary small">Converse só com apelido ou entre com sua conta para identificar seu perfil.</p><form id="accountLoginForm"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha"><button class="btn btn-sm btn-glass w-100">Entrar</button></form><hr><details><summary class="small">Criar conta</summary><form id="accountRegisterForm" class="mt-3"><input class="form-control form-control-sm mb-2" name="display_name" placeholder="Nome exibido"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário" required><input class="form-control form-control-sm mb-2" name="email" type="email" placeholder="E-mail opcional"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha (8+ caracteres)" required><button class="btn btn-sm btn-rad w-100">Cadastrar</button></form></details><hr><h5>Regras da resenha</h5><p class="text-secondary small">Respeite os participantes. Flood, spam, ofensas e conteúdo ilegal podem resultar em mute ou banimento.</p><a href="/termos-de-uso" class="text-link">Termos de uso</a></div></div></div></section>
+<section id="chat" class="view"><div class="page-hero"><span class="section-kicker">RESENHA ON</span><h2>Chat <span>ao vivo</span></h2><p>Converse com os amigos, DJs e moderadores enquanto a rádio toca.</p></div><div class="row g-4 align-items-start"><div class="col-lg-8"><div class="panel chat-panel p-3 p-md-4"><div class="chat-top chat-top-v2"><div><span class="pulse-dot"></span> SALA GERAL</div><span>ao vivo</span></div><div id="chatMessages" class="chat-messages"></div><div class="d-flex gap-2 mt-2"><button class="btn btn-sm btn-dark emoji-btn" data-emoji="😀">😀</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🔥">🔥</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="❤️">❤️</button><button class="btn btn-sm btn-dark emoji-btn" data-emoji="🎵">🎵</button></div><form id="chatForm" class="d-flex gap-2 mt-2"><input id="nickname" class="form-control nick-input" placeholder="Apelido" maxlength="60"><input id="chatInput" class="form-control" placeholder="Digite sua mensagem..." maxlength="500" required><button class="btn btn-rad"><i class="bi bi-send-fill"></i><span class="d-none d-sm-inline"> Enviar</span></button></form></div></div><div class="col-lg-4"><div class="panel p-4 chat-side-panel"><div class="form-icon"><i class="bi bi-person-circle"></i></div><h4>Conta</h4><p class="text-secondary small">Entre ou crie sua conta para participar do chat.</p><form id="accountLoginForm"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha"><button class="btn btn-sm btn-glass w-100">Entrar</button></form><hr><details><summary class="small">Criar conta</summary><form id="accountRegisterForm" class="mt-3"><input class="form-control form-control-sm mb-2" name="display_name" placeholder="Nome exibido"><input class="form-control form-control-sm mb-2" name="username" placeholder="Usuário" required><input class="form-control form-control-sm mb-2" name="email" type="email" placeholder="E-mail opcional"><input class="form-control form-control-sm mb-2" name="password" type="password" placeholder="Senha (8+ caracteres)" required><button class="btn btn-sm btn-rad w-100">Cadastrar</button></form></details><hr><h5>Regras da resenha</h5><p class="text-secondary small">Respeite os participantes. Flood, spam, ofensas e conteúdo ilegal podem resultar em mute ou banimento.</p><a href="/termos-de-uso" class="text-link">Termos de uso</a></div></div></div></section>
 </main>
 
 <footer class="container-fluid container-xl rad-footer"><div class="footer-brand"><img src="/static/img/logo-rad.svg" alt="" width="52"><div><strong>RÁDIO AMIGOS DIGITAL</strong><span>A rádio que toca a sua vibe.</span></div></div><div class="footer-links"><a href="/politica-de-privacidade">Privacidade</a><a href="/termos-de-uso">Termos</a><a href="/admin">Equipe</a></div><small>© 2026 Rádio Amigos Digital</small></footer>
 
-<div class="sticky-player">
-  <div class="container-fluid container-xl player-inner">
-    <button id="playBtn" class="play-btn" aria-label="Tocar rádio"><i class="bi bi-play-fill"></i></button>
-    <div class="player-cover"><img id="playerCoverImg" src="/static/img/logo-rad.svg" alt="Capa da música atual"></div>
-    <div class="player-copy minw"><small id="playerKicker"><span class="pulse-dot"></span> RÁDIO AMIGOS DIGITAL</small><strong id="playerTitle">Rádio Amigos Digital</strong><div id="playerMeta" class="text-truncate">Servidor de streaming ainda não configurado</div></div>
-    <div class="player-eq d-none d-md-flex" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <span id="liveIndicator" class="mode-badge">AUTO</span>
-    <input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
-    <button id="muteBtn" class="icon-btn" aria-label="Ativar ou desativar som"><i class="bi bi-volume-up-fill"></i></button>
-    <audio id="radioAudio" preload="none"></audio>
-  </div>
-</div>
-
+<div class="sticky-player"><div class="container-fluid container-xl player-inner"><button id="playBtn" class="play-btn" aria-label="Tocar rádio"><i class="bi bi-play-fill"></i></button><div class="player-cover"><img id="playerCoverImg" src="/static/img/logo-rad.svg" alt="Capa da música atual"></div><div class="player-copy minw"><small id="playerKicker"><span class="pulse-dot"></span> RÁDIO AMIGOS DIGITAL</small><strong id="playerTitle">Rádio Amigos Digital</strong><div id="playerMeta" class="text-truncate">Servidor de streaming ainda não configurado</div></div><div class="player-eq d-none d-md-flex" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span id="liveIndicator" class="mode-badge">AUTO</span><input id="volume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"><button id="muteBtn" class="icon-btn" aria-label="Ativar ou desativar som"><i class="bi bi-volume-up-fill"></i></button><audio id="radioAudio" preload="none"></audio></div></div>
 <div id="privacyNotice" class="privacy-notice panel p-3"><div class="d-flex gap-3 align-items-center flex-wrap"><div class="flex-grow-1 small">Usamos armazenamento local e recursos técnicos necessários para login, preferências e funcionamento do chat. Consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.</div><button id="privacyOk" class="btn btn-sm btn-rad">Entendi</button></div></div>
 <div id="toast" class="toast-box"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-<script src="/static/js/app.js"></script>
-<script src="/static/js/home-experience.js"></script>
+<script src="/static/js/app.js?v=20260825-6"></script>
+<script src="/static/js/home-experience.js?v=20260825-6"></script>
+<script src="/static/js/chat-auth-required.js?v=20260825-6"></script>
+<script src="/static/js/reaction-auth-fix.js?v=20260825-6"></script>
+<script src="/static/js/media-library.js?v=20260825-6"></script>
 </body></html>
