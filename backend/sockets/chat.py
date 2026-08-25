@@ -8,6 +8,7 @@ from ..models import ChatMessage, ChatReaction, User, StaffNotification
 from ..services import clean_chat_text
 
 windows = defaultdict(deque)
+online_sids = set()
 REACTIONS = {"👍", "❤️", "🔥", "😂", "👏", "😍", "🎉", "💯", "😎", "🤯", "🎧", "🎵"}
 STAFF_TAGS = {"@adm", "@admin", "@mod", "@moderador", "@moderadora", "@equipe"}
 
@@ -55,13 +56,24 @@ def notify_mentions(message, author_name):
 
 
 def register_socket_handlers(socketio):
+    def broadcast_online_count():
+        socketio.emit("online_count", {"count": len(online_sids)})
+
     @socketio.on("connect")
     def on_connect():
+        online_sids.add(request.sid)
         emit("connected", {"ok": True})
+        broadcast_online_count()
 
     @socketio.on("disconnect")
     def on_disconnect():
+        online_sids.discard(request.sid)
         windows.pop(request.sid, None)
+        broadcast_online_count()
+
+    @socketio.on("get_online_count")
+    def on_get_online_count():
+        emit("online_count", {"count": len(online_sids)})
 
     @socketio.on("chat_message")
     def on_chat(data):
